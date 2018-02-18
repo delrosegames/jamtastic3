@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event_Layout_UI</name>
+    <events>
+        <event-block sid="460752204297985">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="720148823707460" type="System" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="543957513604875" type="System">
+                    <param id="0" name="Variable">CriouUI</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-25" name="Go to layout (by name)" sid="913382275139355" type="System">
+                    <param id="0" name="Layout">LayoutRedirecionar</param>
+                </action>
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>

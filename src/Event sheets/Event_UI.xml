@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event_UI</name>
+    <events>
+        <comment>Se o layout de UI ainda não foi criado, esse é criado (redireciona para o layout).&#x0D;&#x0A;Também armazena o nome do layout atual, para que a UI possa redirecionar para este de volta.</comment>
+        <event-block sid="340017456367205">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="918342101193832" type="System" />
+                <condition id="-14" name="Compare variable" sid="508080384720325" type="System">
+                    <param id="0" name="Variable">CriouUI</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="989537187933957" type="System">
+                    <param id="0" name="Variable">LayoutRedirecionar</param>
+                    <param id="1" name="Value">LayoutName</param>
+                </action>
+                <action id="-2" name="Go to layout" sid="776169655313037" type="System">
+                    <param id="0" name="Layout">UI</param>
+                </action>
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>

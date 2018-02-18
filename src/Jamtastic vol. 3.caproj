@@ -11,6 +11,7 @@
     <saved-with-version>25200</saved-with-version>
     <used-plugins>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
+        <plugin author="Scirra" id="Spritefont2" version="1">Sprite font</plugin>
         <plugin author="Scirra" id="Tilemap" version="1">Tilemap</plugin>
     </used-plugins>
     <used-behaviors>
@@ -30,7 +31,7 @@
     </window-size>
     <pixel-rounding>0</pixel-rounding>
     <preview-effects>1</preview-effects>
-    <first-layout>Layout 1</first-layout>
+    <first-layout>Fase_1</first-layout>
     <use-loader-layout>0</use-loader-layout>
     <configuration-settings>
         <prop name="Clear background">Yes</prop>
@@ -200,15 +201,31 @@
                 </animation-folder>
             </object-type>
         </object-folder>
+        <object-folder name="UI">
+            <object-type global="1" name="Pontos" sid="290054386189334">
+                <plugin id="Spritefont2" />
+                <texture />
+            </object-type>
+        </object-folder>
     </object-folder>
     <families />
     <layout-folder>
-        <layout>Layout 1.xml</layout>
+        <layout-folder name="Fases">
+            <layout>Fase_1.xml</layout>
+        </layout-folder>
         <layout>Layout para objetos.xml</layout>
+        <layout>UI.xml</layout>
     </layout-folder>
     <event-folder>
-        <event-sheet>Event sheet 1.xml</event-sheet>
-        <event-sheet>Event_TestChar.xml</event-sheet>
+        <event-folder name="Fases">
+            <event-sheet>Event_Fase_1.xml</event-sheet>
+        </event-folder>
+        <event-folder name="Chars">
+            <event-sheet>Event_TestChar.xml</event-sheet>
+        </event-folder>
+        <event-sheet>Event_Layout_UI.xml</event-sheet>
+        <event-sheet>Event_UI.xml</event-sheet>
+        <event-sheet>Global.xml</event-sheet>
     </event-folder>
     <global-instances />
     <sounds-folder />
