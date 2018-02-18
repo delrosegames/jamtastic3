@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event_TestChar</name>
+    <events>
+        <event-block sid="190690599571066">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="202697245062605" type="System" />
+            </conditions>
+            <actions>
+                <action id="-3" name="Set position" sid="750980547821989" type="TestChar">
+                    <param id="0" name="X">TestCharBase.X</param>
+                    <param id="1" name="Y">TestCharBase.Y</param>
+                </action>
+                <action behavior="Pin" id="0" name="Pin to object" sid="807701040548428" type="TestChar">
+                    <param id="0" name="Pin to">TestCharBase</param>
+                    <param id="1" name="Mode">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="579241525858957">
+            <conditions>
+                <condition behavior="8Direction" id="0" name="Is moving" sid="153830605458690" type="TestCharBase" />
+            </conditions>
+            <actions>
+                <action id="4" name="Set animation" sid="350127783920140" type="TestChar">
+                    <param id="0" name="Animation">&quot;Andando_&quot; &amp; TestCharBase.Angle</param>
+                    <param id="1" name="From">0</param>
+                </action>
+                <action id="0" name="Set text" sid="381292198917453" type="TextBox">
+                    <param id="0" name="Text">&quot;Andando_&quot; &amp; TestCharBase.Angle</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="723280745067199">
+            <conditions>
+                <condition behavior="8Direction" id="0" inverted="1" name="Is moving" sid="771552727388510" type="TestCharBase" />
+            </conditions>
+            <actions>
+                <action id="4" name="Set animation" sid="460081623079259" type="TestChar">
+                    <param id="0" name="Animation">&quot;Parado&quot;</param>
+                    <param id="1" name="From">1</param>
+                </action>
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>
