@@ -12,10 +12,14 @@
     <used-plugins>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="TextBox" version="1">Text box</plugin>
+        <plugin author="Scirra" id="Tilemap" version="1">Tilemap</plugin>
     </used-plugins>
     <used-behaviors>
+        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
+        <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
+        <behavior author="Scirra" id="scrollto" version="1">Scroll To</behavior>
     </used-behaviors>
     <used-effects />
     <configurations>
@@ -44,87 +48,117 @@
         <prop name="Use high-DPI display">Yes</prop>
     </configuration-settings>
     <object-folder>
-        <object-type name="TestChar" sid="654822248053734">
-            <plugin id="Sprite" />
-            <behaviors>
-                <behavior-type name="Pin" sid="229345433892585">
-                    <behavior id="Pin" />
-                </behavior-type>
-            </behaviors>
-            <container>
-                <type>TestCharBase</type>
-                <type>TestChar</type>
-            </container>
-            <animation-folder>
-                <animation framecount="1" loop="0" name="Parado" pingpong="0" repeatcount="1" repeatto="0" sid="873354230380648" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                </animation>
-                <animation framecount="1" loop="0" name="Andando_0" pingpong="0" repeatcount="1" repeatto="0" sid="490885850633765" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                </animation>
-                <animation framecount="1" loop="0" name="Andando_45" pingpong="0" repeatcount="1" repeatto="0" sid="821809259280131" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                </animation>
-                <animation framecount="1" loop="0" name="Andando_90" pingpong="0" repeatcount="1" repeatto="0" sid="142299447433656" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                </animation>
-                <animation framecount="1" loop="0" name="Andando_135" pingpong="0" repeatcount="1" repeatto="0" sid="390061909607841" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75">
-                        <collision-poly>
-                            <point x="1" y="1" />
-                            <point x="0" y="1" />
-                            <point x="0" y="0" />
-                            <point x="1" y="0" />
-                        </collision-poly>
-                    </frame>
-                </animation>
-                <animation framecount="1" loop="0" name="Andando_180" pingpong="0" repeatcount="1" repeatto="0" sid="777055891244422" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75">
-                        <collision-poly>
-                            <point x="1" y="1" />
-                            <point x="0" y="1" />
-                            <point x="0" y="0" />
-                            <point x="1" y="0" />
-                        </collision-poly>
-                    </frame>
-                </animation>
-                <animation framecount="1" loop="0" name="Andando_225" pingpong="0" repeatcount="1" repeatto="0" sid="985419858863274" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75">
-                        <collision-poly>
-                            <point x="1" y="1" />
-                            <point x="0" y="1" />
-                            <point x="0" y="0" />
-                            <point x="1" y="0" />
-                        </collision-poly>
-                    </frame>
-                </animation>
-                <animation framecount="1" loop="0" name="Andando_270" pingpong="0" repeatcount="1" repeatto="0" sid="496097543933840" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                </animation>
-                <animation framecount="1" loop="0" name="Andando_315" pingpong="0" repeatcount="1" repeatto="0" sid="940993897445959" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                </animation>
-            </animation-folder>
-        </object-type>
+        <object-folder name="Tilemaps">
+            <object-type name="Tilemap_Floor" sid="450622213498314">
+                <plugin id="Tilemap" />
+                <texture original-source="D:\Dev\Assets\Kenney\roguelike-modern-city-pack\Spritesheet\roguelikeCity_magenta.png" />
+                <tiles />
+            </object-type>
+            <object-type name="Tilemap_Floor_2x" sid="169627909741284">
+                <plugin id="Tilemap" />
+                <texture original-source="D:\Dev\Assets\Kenney\roguelike-modern-city-pack\Spritesheet\roguelikeCity_magenta.png" />
+                <tiles />
+            </object-type>
+            <object-type name="Tilemap_Obj_Blocking" sid="114252351301995">
+                <plugin id="Tilemap" />
+                <texture original-source="D:\Dev\Assets\Kenney\roguelike-modern-city-pack\Spritesheet\roguelikeCity_magenta.png" />
+                <tiles />
+            </object-type>
+        </object-folder>
+        <object-folder name="Chars">
+            <object-type name="TestChar" sid="654822248053734">
+                <plugin id="Sprite" />
+                <behaviors>
+                    <behavior-type name="Pin" sid="229345433892585">
+                        <behavior id="Pin" />
+                    </behavior-type>
+                </behaviors>
+                <container>
+                    <type>TestCharBase</type>
+                    <type>TestChar</type>
+                </container>
+                <animation-folder>
+                    <animation framecount="1" loop="0" name="Parado" pingpong="0" repeatcount="1" repeatto="0" sid="873354230380648" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
+                    </animation>
+                    <animation framecount="1" loop="0" name="Andando_0" pingpong="0" repeatcount="1" repeatto="0" sid="490885850633765" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
+                    </animation>
+                    <animation framecount="1" loop="0" name="Andando_45" pingpong="0" repeatcount="1" repeatto="0" sid="821809259280131" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
+                    </animation>
+                    <animation framecount="1" loop="0" name="Andando_90" pingpong="0" repeatcount="1" repeatto="0" sid="142299447433656" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
+                    </animation>
+                    <animation framecount="1" loop="0" name="Andando_135" pingpong="0" repeatcount="1" repeatto="0" sid="390061909607841" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75">
+                            <collision-poly>
+                                <point x="1" y="1" />
+                                <point x="0" y="1" />
+                                <point x="0" y="0" />
+                                <point x="1" y="0" />
+                            </collision-poly>
+                        </frame>
+                    </animation>
+                    <animation framecount="1" loop="0" name="Andando_180" pingpong="0" repeatcount="1" repeatto="0" sid="777055891244422" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75">
+                            <collision-poly>
+                                <point x="1" y="1" />
+                                <point x="0" y="1" />
+                                <point x="0" y="0" />
+                                <point x="1" y="0" />
+                            </collision-poly>
+                        </frame>
+                    </animation>
+                    <animation framecount="1" loop="0" name="Andando_225" pingpong="0" repeatcount="1" repeatto="0" sid="985419858863274" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75">
+                            <collision-poly>
+                                <point x="1" y="1" />
+                                <point x="0" y="1" />
+                                <point x="0" y="0" />
+                                <point x="1" y="0" />
+                            </collision-poly>
+                        </frame>
+                    </animation>
+                    <animation framecount="1" loop="0" name="Andando_270" pingpong="0" repeatcount="1" repeatto="0" sid="496097543933840" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
+                    </animation>
+                    <animation framecount="1" loop="0" name="Andando_315" pingpong="0" repeatcount="1" repeatto="0" sid="940993897445959" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
+                    </animation>
+                </animation-folder>
+            </object-type>
+            <object-type name="TestCharBase" sid="120229473089812">
+                <plugin id="Sprite" />
+                <behaviors>
+                    <behavior-type name="8Direction" sid="991468059807359">
+                        <behavior id="EightDir" />
+                    </behavior-type>
+                    <behavior-type name="ScrollTo" sid="793231169436449">
+                        <behavior id="scrollto" />
+                    </behavior-type>
+                    <behavior-type name="BoundToLayout" sid="985093975072021">
+                        <behavior id="bound" />
+                    </behavior-type>
+                </behaviors>
+                <container>
+                    <type>TestCharBase</type>
+                    <type>TestChar</type>
+                </container>
+                <animation-folder>
+                    <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="707012224300223" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
+                    </animation>
+                </animation-folder>
+            </object-type>
+        </object-folder>
         <object-type name="TextBox" sid="780672078721367">
             <plugin id="TextBox" />
-        </object-type>
-        <object-type name="TestCharBase" sid="120229473089812">
-            <plugin id="Sprite" />
             <behaviors>
-                <behavior-type name="8Direction" sid="991468059807359">
-                    <behavior id="EightDir" />
+                <behavior-type name="Anchor" sid="467845796107185">
+                    <behavior id="Anchor" />
                 </behavior-type>
             </behaviors>
-            <container>
-                <type>TestCharBase</type>
-                <type>TestChar</type>
-            </container>
-            <animation-folder>
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="707012224300223" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
-                </animation>
-            </animation-folder>
         </object-type>
     </object-folder>
     <families />
