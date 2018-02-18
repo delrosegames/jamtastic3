@@ -27,9 +27,6 @@
                     <param id="0" name="Animation">&quot;Andando_&quot; &amp; TestCharBase.Angle</param>
                     <param id="1" name="From">0</param>
                 </action>
-                <action id="0" name="Set text" sid="381292198917453" type="TextBox">
-                    <param id="0" name="Text">&quot;Andando_&quot; &amp; TestCharBase.Angle</param>
-                </action>
             </actions>
         </event-block>
         <event-block sid="723280745067199">

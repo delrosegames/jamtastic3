@@ -11,11 +11,9 @@
     <saved-with-version>25200</saved-with-version>
     <used-plugins>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
-        <plugin author="Scirra" id="TextBox" version="1">Text box</plugin>
         <plugin author="Scirra" id="Tilemap" version="1">Tilemap</plugin>
     </used-plugins>
     <used-behaviors>
-        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
         <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
@@ -32,6 +30,7 @@
     </window-size>
     <pixel-rounding>0</pixel-rounding>
     <preview-effects>1</preview-effects>
+    <first-layout>Layout 1</first-layout>
     <use-loader-layout>0</use-loader-layout>
     <configuration-settings>
         <prop name="Clear background">Yes</prop>
@@ -55,47 +54,53 @@
                 <texture original-source="D:\Dev\Assets\Kenney\roguelike-modern-city-pack\Spritesheet\roguelikeCity_magenta.png" />
                 <tiles />
             </object-type>
-            <object-type name="Tilemap_Floor_2x" sid="169627909741284">
-                <plugin id="Tilemap" />
-                <texture original-source="D:\Dev\Assets\Kenney\roguelike-modern-city-pack\Spritesheet\roguelikeCity_magenta.png" />
-                <tiles />
-            </object-type>
             <object-type name="Tilemap_Obj_Blocking" sid="114252351301995">
                 <plugin id="Tilemap" />
-                <texture original-source="D:\Dev\Assets\Kenney\roguelike-modern-city-pack\Spritesheet\roguelikeCity_magenta.png" />
-                <tiles />
-            </object-type>
-            <object-type name="Tilemap_Obj_Blocking_2x" sid="275541964803836">
-                <plugin id="Tilemap" />
                 <behaviors>
-                    <behavior-type name="Solid" sid="365943536040532">
+                    <behavior-type name="Solid" sid="965584034632537">
                         <behavior id="solid" />
                     </behavior-type>
                 </behaviors>
                 <texture original-source="D:\Dev\Assets\Kenney\roguelike-modern-city-pack\Spritesheet\roguelikeCity_magenta.png" />
                 <tiles>
-                    <tile id="11">
+                    <tile id="21">
                         <collision-poly>
-                            <point x="0.21875" y="0" />
-                            <point x="0.78125" y="0" />
-                            <point x="0.78125" y="0.78125" />
-                            <point x="0.21875" y="0.78125" />
+                            <point x="0" y="0" />
+                            <point x="1" y="0" />
+                            <point x="1" y="0.8125" />
+                            <point x="0" y="0.8125" />
+                        </collision-poly>
+                    </tile>
+                    <tile id="22">
+                        <collision-poly>
+                            <point x="0" y="0" />
+                            <point x="1" y="0" />
+                            <point x="1" y="0.8125" />
+                            <point x="0" y="0.8125" />
                         </collision-poly>
                     </tile>
                     <tile id="112">
                         <collision-poly>
-                            <point x="0.46875" y="0" />
+                            <point x="0.4375" y="0" />
                             <point x="1" y="0" />
-                            <point x="1" y="1" />
-                            <point x="0.46875" y="1" />
+                            <point x="1" y="0.9375" />
+                            <point x="0.4375" y="0.9375" />
+                        </collision-poly>
+                    </tile>
+                    <tile id="113">
+                        <collision-poly>
+                            <point x="0" y="0" />
+                            <point x="1" y="0" />
+                            <point x="1" y="0.9375" />
+                            <point x="0" y="0.9375" />
                         </collision-poly>
                     </tile>
                     <tile id="114">
                         <collision-poly>
                             <point x="0" y="0" />
                             <point x="0.6875" y="0" />
-                            <point x="0.6875" y="1" />
-                            <point x="0" y="1" />
+                            <point x="0.6875" y="0.9375" />
+                            <point x="0" y="0.9375" />
                         </collision-poly>
                     </tile>
                 </tiles>
@@ -195,14 +200,6 @@
                 </animation-folder>
             </object-type>
         </object-folder>
-        <object-type name="TextBox" sid="780672078721367">
-            <plugin id="TextBox" />
-            <behaviors>
-                <behavior-type name="Anchor" sid="467845796107185">
-                    <behavior id="Anchor" />
-                </behavior-type>
-            </behaviors>
-        </object-type>
     </object-folder>
     <families />
     <layout-folder>
