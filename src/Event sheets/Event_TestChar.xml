@@ -24,7 +24,7 @@
             </conditions>
             <actions>
                 <action id="4" name="Set animation" sid="350127783920140" type="TestChar">
-                    <param id="0" name="Animation">&quot;Andando_&quot; &amp; TestCharBase.Angle</param>
+                    <param id="0" name="Animation">&quot;Andando&quot;</param>
                     <param id="1" name="From">0</param>
                 </action>
             </actions>
@@ -37,6 +37,36 @@
                 <action id="4" name="Set animation" sid="460081623079259" type="TestChar">
                     <param id="0" name="Animation">&quot;Parado&quot;</param>
                     <param id="1" name="From">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block any="1" sid="520342782168065">
+            <conditions>
+                <condition id="-13" name="Is between angles" sid="612996075163926" type="TestCharBase">
+                    <param id="0" name="First angle">0</param>
+                    <param id="1" name="Second angle">90</param>
+                </condition>
+                <condition id="-13" name="Is between angles" sid="789449877025495" type="TestCharBase">
+                    <param id="0" name="First angle">315</param>
+                    <param id="1" name="Second angle">360</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="7" name="Set mirrored" sid="845542020221372" type="TestChar">
+                    <param id="0" name="State">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="714367074989345">
+            <conditions>
+                <condition id="-13" name="Is between angles" sid="179140277372891" type="TestCharBase">
+                    <param id="0" name="First angle">90.1</param>
+                    <param id="1" name="Second angle">225.01</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="7" name="Set mirrored" sid="728433725987985" type="TestChar">
+                    <param id="0" name="State">0</param>
                 </action>
             </actions>
         </event-block>

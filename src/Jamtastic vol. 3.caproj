@@ -120,53 +120,14 @@
                     <type>TestChar</type>
                 </container>
                 <animation-folder>
-                    <animation framecount="1" loop="0" name="Parado" pingpong="0" repeatcount="1" repeatto="0" sid="873354230380648" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
+                    <animation framecount="1" loop="1" name="Parado" pingpong="0" repeatcount="1" repeatto="0" sid="873354230380648" speed="8">
+                        <frame duration="1" hotspotX="0.543478" hotspotY="0.923077" original-source="D:\Dev\Assets\Jamtastic3\Jogador\Redimensionado\00.png" />
                     </animation>
-                    <animation framecount="1" loop="0" name="Andando_0" pingpong="0" repeatcount="1" repeatto="0" sid="490885850633765" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                    </animation>
-                    <animation framecount="1" loop="0" name="Andando_45" pingpong="0" repeatcount="1" repeatto="0" sid="821809259280131" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                    </animation>
-                    <animation framecount="1" loop="0" name="Andando_90" pingpong="0" repeatcount="1" repeatto="0" sid="142299447433656" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                    </animation>
-                    <animation framecount="1" loop="0" name="Andando_135" pingpong="0" repeatcount="1" repeatto="0" sid="390061909607841" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75">
-                            <collision-poly>
-                                <point x="1" y="1" />
-                                <point x="0" y="1" />
-                                <point x="0" y="0" />
-                                <point x="1" y="0" />
-                            </collision-poly>
-                        </frame>
-                    </animation>
-                    <animation framecount="1" loop="0" name="Andando_180" pingpong="0" repeatcount="1" repeatto="0" sid="777055891244422" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75">
-                            <collision-poly>
-                                <point x="1" y="1" />
-                                <point x="0" y="1" />
-                                <point x="0" y="0" />
-                                <point x="1" y="0" />
-                            </collision-poly>
-                        </frame>
-                    </animation>
-                    <animation framecount="1" loop="0" name="Andando_225" pingpong="0" repeatcount="1" repeatto="0" sid="985419858863274" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75">
-                            <collision-poly>
-                                <point x="1" y="1" />
-                                <point x="0" y="1" />
-                                <point x="0" y="0" />
-                                <point x="1" y="0" />
-                            </collision-poly>
-                        </frame>
-                    </animation>
-                    <animation framecount="1" loop="0" name="Andando_270" pingpong="0" repeatcount="1" repeatto="0" sid="496097543933840" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
-                    </animation>
-                    <animation framecount="1" loop="0" name="Andando_315" pingpong="0" repeatcount="1" repeatto="0" sid="940993897445959" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.75" />
+                    <animation framecount="4" loop="1" name="Andando" pingpong="0" repeatcount="1" repeatto="0" sid="622019092030813" speed="8">
+                        <frame duration="1" hotspotX="0.543478" hotspotY="0.923077" />
+                        <frame duration="1" hotspotX="0.543478" hotspotY="0.923077" />
+                        <frame duration="1" hotspotX="0.543478" hotspotY="0.923077" />
+                        <frame duration="1" hotspotX="0.543478" hotspotY="0.923077" />
                     </animation>
                 </animation-folder>
             </object-type>
@@ -201,10 +162,11 @@
                 </animation-folder>
             </object-type>
         </object-folder>
-        <object-folder name="UI" />
-        <object-type global="1" name="Pontos" sid="641530727355237">
-            <plugin id="Text" />
-        </object-type>
+        <object-folder name="UI">
+            <object-type global="1" name="Pontos" sid="641530727355237">
+                <plugin id="Text" />
+            </object-type>
+        </object-folder>
     </object-folder>
     <families />
     <layout-folder>
