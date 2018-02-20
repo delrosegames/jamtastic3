@@ -5,5 +5,11 @@
     <events>
         <include>Event_UI</include>
         <include>Event_TestChar</include>
+        <event-block sid="745768869083320">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="789713728961725" type="System" />
+            </conditions>
+            <actions />
+        </event-block>
     </events>
 </c2eventsheet>

@@ -11,7 +11,7 @@
     <saved-with-version>25200</saved-with-version>
     <used-plugins>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
-        <plugin author="Scirra" id="Spritefont2" version="1">Sprite font</plugin>
+        <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="Tilemap" version="1">Tilemap</plugin>
     </used-plugins>
     <used-behaviors>
@@ -26,8 +26,8 @@
         <configuration exporter-descname="HTML5" exporter-id="html5" name="HTML5" />
     </configurations>
     <window-size>
-        <width>427</width>
-        <height>240</height>
+        <width>1280</width>
+        <height>720</height>
     </window-size>
     <pixel-rounding>0</pixel-rounding>
     <preview-effects>1</preview-effects>
@@ -201,12 +201,10 @@
                 </animation-folder>
             </object-type>
         </object-folder>
-        <object-folder name="UI">
-            <object-type global="1" name="Pontos" sid="290054386189334">
-                <plugin id="Spritefont2" />
-                <texture />
-            </object-type>
-        </object-folder>
+        <object-folder name="UI" />
+        <object-type global="1" name="Pontos" sid="641530727355237">
+            <plugin id="Text" />
+        </object-type>
     </object-folder>
     <families />
     <layout-folder>
