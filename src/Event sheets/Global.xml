@@ -3,6 +3,7 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Global</name>
     <events>
+        <variable constant="1" name="VelocidadeScroll" sid="588758563744647" static="0" type="number">1</variable>
         <variable comment="Nome do layout para o qual deve ser redirecionado após a criação da UI" constant="0" name="LayoutRedirecionar" sid="300653454939318" static="0" type="text"></variable>
         <variable comment="Se for 1 quer dizer que já criou os objetos da UI" constant="0" name="CriouUI" sid="379778229072042" static="0" type="number">0</variable>
     </events>
