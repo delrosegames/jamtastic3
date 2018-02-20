@@ -15,10 +15,10 @@
         <plugin author="Scirra" id="Tilemap" version="1">Tilemap</plugin>
     </used-plugins>
     <used-behaviors>
+        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
         <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
-        <behavior author="Scirra" id="scrollto" version="1">Scroll To</behavior>
         <behavior author="Scirra" id="solid" version="1">Solid</behavior>
     </used-behaviors>
     <used-effects />
@@ -176,9 +176,6 @@
                     <behavior-type name="8Direction" sid="991468059807359">
                         <behavior id="EightDir" />
                     </behavior-type>
-                    <behavior-type name="ScrollTo" sid="793231169436449">
-                        <behavior id="scrollto" />
-                    </behavior-type>
                     <behavior-type name="BoundToLayout" sid="985093975072021">
                         <behavior id="bound" />
                     </behavior-type>
@@ -202,6 +199,21 @@
             </object-type>
         </object-folder>
         <object-folder name="UI" />
+        <object-folder name="Objetos">
+            <object-type name="CarroAlegorico" sid="999222484812396">
+                <plugin id="Sprite" />
+                <behaviors>
+                    <behavior-type name="Anchor" sid="403266070618405">
+                        <behavior id="Anchor" />
+                    </behavior-type>
+                </behaviors>
+                <animation-folder>
+                    <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="598432421695039" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
+                    </animation>
+                </animation-folder>
+            </object-type>
+        </object-folder>
         <object-type global="1" name="Pontos" sid="641530727355237">
             <plugin id="Text" />
         </object-type>
