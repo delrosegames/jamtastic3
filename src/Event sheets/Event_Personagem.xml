@@ -196,5 +196,20 @@
                 </event-block>
             </sub-events>
         </event-group>
+        <event-group description="" sid="468952667181042" title="Ações do personagem" />
+        <event-block sid="176625588318440">
+            <conditions>
+                <condition id="0" name="On collision with another object" sid="157372279563495" type="MeninaBase">
+                    <param id="0" name="Object">FLixo</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-10" name="Add to" sid="900957262952593" type="System">
+                    <param id="0" name="Variable">Pontos</param>
+                    <param id="1" name="Value">FLixo.Pontos</param>
+                </action>
+                <action id="-9" name="Destroy" sid="944514560926327" type="FLixo" />
+            </actions>
+        </event-block>
     </events>
 </c2eventsheet>

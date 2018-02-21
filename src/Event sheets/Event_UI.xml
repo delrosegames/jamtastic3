@@ -23,5 +23,15 @@
                 </action>
             </actions>
         </event-block>
+        <event-block sid="753302124342458">
+            <conditions>
+                <condition id="-1" name="Every tick" sid="902935566042375" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="228739437284043" type="Pontos">
+                    <param id="0" name="Text">zeropad(Pontos, 5)</param>
+                </action>
+            </actions>
+        </event-block>
     </events>
 </c2eventsheet>
