@@ -50,27 +50,40 @@
                 <variable constant="1" name="MARGEM" sid="851603293655309" static="0" type="number">30</variable>
                 <variable constant="1" name="MARGEM_ESQUERDA" sid="658043531173074" static="0" type="number">200</variable>
                 <variable constant="0" name="QuantidadeLixo" sid="135134021117542" static="0" type="number">25</variable>
+                <comment>Ao iniciar o layout, gera uma determinada quantidade de lixo (parametrizada) em locais aleatórios (com margens parametrizadas).</comment>
                 <event-block sid="320897492474630">
                     <conditions>
                         <condition id="-2" name="On start of layout" sid="946940195190180" type="System" />
+                        <condition id="-10" name="For" sid="243286679329986" type="System">
+                            <param id="0" name="Name">&quot;GerarLixos&quot;</param>
+                            <param id="1" name="Start index">1</param>
+                            <param id="2" name="End index">QuantidadeLixo</param>
+                        </condition>
                     </conditions>
-                    <actions />
+                    <actions>
+                        <action id="-3" name="Set position" sid="281876017992200" type="GeradorLixo">
+                            <param id="0" name="X">random(MARGEM_ESQUERDA + MARGEM, LayoutWidth - MARGEM)</param>
+                            <param id="1" name="Y">random(MARGEM, LayoutHeight - MARGEM)</param>
+                        </action>
+                        <action id="0" name="Spawn another object" sid="872579354740399" type="GeradorLixo">
+                            <param id="0" name="Object">FLixo</param>
+                            <param id="1" name="Layer">LayerIndex(&quot;Lixos&quot;)</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                    </actions>
                     <sub-events>
-                        <event-block sid="982992132725928">
+                        <comment>Para cada repetição par, o lixo gerado é exibido de forma espelhada, para dar mais variedade.</comment>
+                        <event-block sid="768617736058575">
                             <conditions>
-                                <condition id="-12" name="Repeat" sid="630833767575627" type="System">
-                                    <param id="0" name="Count">QuantidadeLixo</param>
+                                <condition id="-8" name="Compare two values" sid="546987166161975" type="System">
+                                    <param id="0" name="First value">loopindex(&quot;GerarLixos&quot;) % 2</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">0</param>
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-3" name="Set position" sid="281876017992200" type="GeradorLixo">
-                                    <param id="0" name="X">random(MARGEM_ESQUERDA + MARGEM, LayoutWidth - MARGEM)</param>
-                                    <param id="1" name="Y">random(MARGEM, LayoutHeight - MARGEM)</param>
-                                </action>
-                                <action id="0" name="Spawn another object" sid="872579354740399" type="GeradorLixo">
-                                    <param id="0" name="Object">FLixo</param>
-                                    <param id="1" name="Layer">LayerIndex(&quot;Lixos&quot;)</param>
-                                    <param id="2" name="Image point">0</param>
+                                <action id="7" name="Set mirrored" sid="936606961361478" type="FLixo">
+                                    <param id="0" name="State">0</param>
                                 </action>
                             </actions>
                         </event-block>
