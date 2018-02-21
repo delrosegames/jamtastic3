@@ -3,6 +3,9 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event_TestChar</name>
     <events>
+        <variable constant="0" name="PersonagemVelocidade" sid="309284899548003" static="0" type="number">800</variable>
+        <variable constant="0" name="PersonagemAceleracao" sid="960434294198752" static="0" type="number">3000</variable>
+        <variable constant="0" name="PersonagemDeceleracao" sid="907193188667065" static="0" type="number">4000</variable>
         <event-block sid="190690599571066">
             <conditions>
                 <condition id="-2" name="On start of layout" sid="202697245062605" type="System" />
@@ -16,59 +19,165 @@
                     <param id="0" name="Pin to">TestCharBase</param>
                     <param id="1" name="Mode">1</param>
                 </action>
-            </actions>
-        </event-block>
-        <event-block sid="579241525858957">
-            <conditions>
-                <condition behavior="8Direction" id="0" name="Is moving" sid="153830605458690" type="TestCharBase" />
-            </conditions>
-            <actions>
-                <action id="4" name="Set animation" sid="350127783920140" type="TestChar">
-                    <param id="0" name="Animation">&quot;Andando&quot;</param>
-                    <param id="1" name="From">0</param>
+                <action behavior="8Direction" id="4" name="Set max speed" sid="239823718376400" type="TestCharBase">
+                    <param id="0" name="Max Speed">PersonagemVelocidade</param>
+                </action>
+                <action behavior="8Direction" id="5" name="Set acceleration" sid="702725810260996" type="TestCharBase">
+                    <param id="0" name="Acceleration">PersonagemAceleracao</param>
+                </action>
+                <action behavior="8Direction" id="6" name="Set deceleration" sid="895184454335706" type="TestCharBase">
+                    <param id="0" name="Deceleration">PersonagemDeceleracao</param>
+                </action>
+                <action behavior="Pathfinding" id="7" name="Set max speed" sid="657398500054100" type="TestCharBase">
+                    <param id="0" name="Speed">PersonagemVelocidade</param>
+                </action>
+                <action behavior="Pathfinding" id="8" name="Set acceleration" sid="474613452544348" type="TestCharBase">
+                    <param id="0" name="Acceleration">PersonagemAceleracao</param>
+                </action>
+                <action behavior="Pathfinding" id="9" name="Set deceleration" sid="913191298950522" type="TestCharBase">
+                    <param id="0" name="Deceleration">PersonagemDeceleracao</param>
                 </action>
             </actions>
         </event-block>
-        <event-block sid="723280745067199">
-            <conditions>
-                <condition behavior="8Direction" id="0" inverted="1" name="Is moving" sid="771552727388510" type="TestCharBase" />
-            </conditions>
-            <actions>
-                <action id="4" name="Set animation" sid="460081623079259" type="TestChar">
-                    <param id="0" name="Animation">&quot;Parado&quot;</param>
-                    <param id="1" name="From">1</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block any="1" sid="520342782168065">
-            <conditions>
-                <condition id="-13" name="Is between angles" sid="612996075163926" type="TestCharBase">
-                    <param id="0" name="First angle">0</param>
-                    <param id="1" name="Second angle">90</param>
-                </condition>
-                <condition id="-13" name="Is between angles" sid="789449877025495" type="TestCharBase">
-                    <param id="0" name="First angle">315</param>
-                    <param id="1" name="Second angle">360</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action id="7" name="Set mirrored" sid="845542020221372" type="TestChar">
-                    <param id="0" name="State">1</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="714367074989345">
-            <conditions>
-                <condition id="-13" name="Is between angles" sid="179140277372891" type="TestCharBase">
-                    <param id="0" name="First angle">90.1</param>
-                    <param id="1" name="Second angle">225.01</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action id="7" name="Set mirrored" sid="728433725987985" type="TestChar">
-                    <param id="0" name="State">0</param>
-                </action>
-            </actions>
-        </event-block>
+        <event-group description="Controle de animações e forma de visualização dos sprites do personagem" sid="313315331906602" title="Animações">
+            <sub-events>
+                <event-block any="1" sid="579241525858957">
+                    <conditions>
+                        <condition behavior="8Direction" id="0" name="Is moving" sid="153830605458690" type="TestCharBase" />
+                        <condition behavior="Pathfinding" id="4" name="Is moving along path" sid="591273756883844" type="TestCharBase" />
+                    </conditions>
+                    <actions>
+                        <action id="4" name="Set animation" sid="350127783920140" type="TestChar">
+                            <param id="0" name="Animation">&quot;Andando&quot;</param>
+                            <param id="1" name="From">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="723280745067199">
+                    <conditions>
+                        <condition behavior="8Direction" id="0" inverted="1" name="Is moving" sid="771552727388510" type="TestCharBase" />
+                        <condition behavior="Pathfinding" id="4" inverted="1" name="Is moving along path" sid="801982734224388" type="TestCharBase" />
+                    </conditions>
+                    <actions>
+                        <action id="4" name="Set animation" sid="460081623079259" type="TestChar">
+                            <param id="0" name="Animation">&quot;Parado&quot;</param>
+                            <param id="1" name="From">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block any="1" sid="520342782168065">
+                    <conditions>
+                        <condition id="-13" name="Is between angles" sid="612996075163926" type="TestCharBase">
+                            <param id="0" name="First angle">0</param>
+                            <param id="1" name="Second angle">90</param>
+                        </condition>
+                        <condition id="-13" name="Is between angles" sid="789449877025495" type="TestCharBase">
+                            <param id="0" name="First angle">315</param>
+                            <param id="1" name="Second angle">360</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="7" name="Set mirrored" sid="845542020221372" type="TestChar">
+                            <param id="0" name="State">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="714367074989345">
+                    <conditions>
+                        <condition id="-13" name="Is between angles" sid="179140277372891" type="TestCharBase">
+                            <param id="0" name="First angle">90.1</param>
+                            <param id="1" name="Second angle">225.01</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="7" name="Set mirrored" sid="728433725987985" type="TestChar">
+                            <param id="0" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="Eventos de movimentação e controle do personagem" sid="890369845858067" title="Movimentação / Controles">
+            <sub-events>
+                <event-block sid="799823959490488">
+                    <conditions>
+                        <condition id="0" name="On click" sid="635987037736335" type="Mouse">
+                            <param id="0" name="Mouse button">0</param>
+                            <param id="1" name="Click type">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Pathfinding" id="0" name="Find path" sid="354782937590799" type="TestCharBase">
+                            <param id="0" name="X">Mouse.X</param>
+                            <param id="1" name="Y">Mouse.Y</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="970535124682410">
+                    <conditions>
+                        <condition behavior="Pathfinding" id="0" name="On path found" sid="625889750389182" type="TestCharBase" />
+                    </conditions>
+                    <actions>
+                        <action behavior="Pathfinding" id="1" name="Move along path" sid="491892029649017" type="TestCharBase" />
+                    </actions>
+                </event-block>
+                <event-block sid="766794643175990">
+                    <conditions>
+                        <condition behavior="8Direction" id="0" name="Is moving" sid="491808161086644" type="TestCharBase" />
+                    </conditions>
+                    <actions>
+                        <action behavior="Pathfinding" id="2" name="Stop" sid="404154547645442" type="TestCharBase" />
+                    </actions>
+                </event-block>
+                <event-block sid="236670290158454">
+                    <conditions>
+                        <condition id="2" name="Key is down" sid="374721136766280" type="Keyboard">
+                            <param id="0" name="Key">87</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="925157622317826" type="TestCharBase">
+                            <param id="0" name="Control">2</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="454848952922949">
+                    <conditions>
+                        <condition id="2" name="Key is down" sid="511291483295637" type="Keyboard">
+                            <param id="0" name="Key">65</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="516141512261898" type="TestCharBase">
+                            <param id="0" name="Control">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="379341221975426">
+                    <conditions>
+                        <condition id="2" name="Key is down" sid="279518463378160" type="Keyboard">
+                            <param id="0" name="Key">83</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="688276865935355" type="TestCharBase">
+                            <param id="0" name="Control">3</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="727425177025978">
+                    <conditions>
+                        <condition id="2" name="Key is down" sid="232580156434754" type="Keyboard">
+                            <param id="0" name="Key">68</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="119135520621915" type="TestCharBase">
+                            <param id="0" name="Control">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
     </events>
 </c2eventsheet>

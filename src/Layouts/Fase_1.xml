@@ -108,9 +108,9 @@
                     <behavior-instances>
                         <behavior-instance type="8Direction">
                             <properties>
-                                <max-speed>500</max-speed>
-                                <acceleration>1200</acceleration>
-                                <deceleration>2000</deceleration>
+                                <max-speed>700</max-speed>
+                                <acceleration>2000</acceleration>
+                                <deceleration>3000</deceleration>
                                 <directions>8 directions</directions>
                                 <set-angle>45-degree intervals</set-angle>
                                 <default-controls>Yes</default-controls>
@@ -120,6 +120,20 @@
                         <behavior-instance type="BoundToLayout">
                             <properties>
                                 <bound-by>Edge</bound-by>
+                            </properties>
+                        </behavior-instance>
+                        <behavior-instance type="Pathfinding">
+                            <properties>
+                                <cell-size>30</cell-size>
+                                <cell-border>-1</cell-border>
+                                <obstacles>Solids</obstacles>
+                                <max-speed>700</max-speed>
+                                <acceleration>2000</acceleration>
+                                <deceleration>3000</deceleration>
+                                <rotate-speed>99999</rotate-speed>
+                                <rotate-object>Yes</rotate-object>
+                                <diagonals>Enabled</diagonals>
+                                <initial-state>Enabled</initial-state>
                             </properties>
                         </behavior-instance>
                     </behavior-instances>

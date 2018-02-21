@@ -10,13 +10,17 @@
     <unique-id>5al2dxbw08by</unique-id>
     <saved-with-version>25200</saved-with-version>
     <used-plugins>
+        <plugin author="Scirra" id="Keyboard" version="1">Keyboard</plugin>
+        <plugin author="Scirra" id="Mouse" version="1">Mouse</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="Tilemap" version="1">Tilemap</plugin>
+        <plugin author="Scirra" id="gamepad" version="1">Gamepad</plugin>
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
+        <behavior author="Scirra" id="Pathfinding" version="1">Pathfinding</behavior>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
         <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
         <behavior author="Scirra" id="solid" version="1">Solid</behavior>
@@ -140,6 +144,9 @@
                     <behavior-type name="BoundToLayout" sid="985093975072021">
                         <behavior id="bound" />
                     </behavior-type>
+                    <behavior-type name="Pathfinding" sid="582639507298418">
+                        <behavior id="Pathfinding" />
+                    </behavior-type>
                 </behaviors>
                 <container>
                     <type>TestCharBase</type>
@@ -179,6 +186,17 @@
                 </animation-folder>
             </object-type>
         </object-folder>
+        <object-folder name="Sistema">
+            <object-type name="Mouse" sid="381731496804247">
+                <plugin id="Mouse" />
+            </object-type>
+            <object-type name="Keyboard" sid="712109660202469">
+                <plugin id="Keyboard" />
+            </object-type>
+            <object-type name="Gamepad" sid="312902455391216">
+                <plugin id="gamepad" />
+            </object-type>
+        </object-folder>
     </object-folder>
     <families />
     <layout-folder>
@@ -199,7 +217,15 @@
         <event-sheet>Event_UI.xml</event-sheet>
         <event-sheet>Global.xml</event-sheet>
     </event-folder>
-    <global-instances />
+    <global-instances>
+        <global-instance type="Mouse" uid="1" />
+        <global-instance type="Keyboard" uid="8" />
+        <global-instance type="Gamepad" uid="10">
+            <properties>
+                <analog-deadzone>25</analog-deadzone>
+            </properties>
+        </global-instance>
+    </global-instances>
     <sounds-folder />
     <music-folder />
     <files-folder>
