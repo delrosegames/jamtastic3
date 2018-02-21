@@ -15141,6 +15141,517 @@ cr.system_object.prototype.loadFromJSON = function (o)
 cr.shaders = {};
 ;
 ;
+cr.plugins_.Keyboard = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.Keyboard.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+		this.keyMap = new Array(256);	// stores key up/down state
+		this.usedKeys = new Array(256);
+		this.triggerKey = 0;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+		var self = this;
+		if (!this.runtime.isDomFree)
+		{
+			jQuery(document).keydown(
+				function(info) {
+					self.onKeyDown(info);
+				}
+			);
+			jQuery(document).keyup(
+				function(info) {
+					self.onKeyUp(info);
+				}
+			);
+		}
+	};
+	var keysToBlockWhenFramed = [32, 33, 34, 35, 36, 37, 38, 39, 40, 44];
+	instanceProto.onKeyDown = function (info)
+	{
+		var alreadyPreventedDefault = false;
+		if (window != window.top && keysToBlockWhenFramed.indexOf(info.which) > -1)
+		{
+			info.preventDefault();
+			alreadyPreventedDefault = true;
+			info.stopPropagation();
+		}
+		if (this.keyMap[info.which])
+		{
+			if (this.usedKeys[info.which] && !alreadyPreventedDefault)
+				info.preventDefault();
+			return;
+		}
+		this.keyMap[info.which] = true;
+		this.triggerKey = info.which;
+		this.runtime.isInUserInputEvent = true;
+		this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnAnyKey, this);
+		var eventRan = this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnKey, this);
+		var eventRan2 = this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnKeyCode, this);
+		this.runtime.isInUserInputEvent = false;
+		if (eventRan || eventRan2)
+		{
+			this.usedKeys[info.which] = true;
+			if (!alreadyPreventedDefault)
+				info.preventDefault();
+		}
+	};
+	instanceProto.onKeyUp = function (info)
+	{
+		this.keyMap[info.which] = false;
+		this.triggerKey = info.which;
+		this.runtime.isInUserInputEvent = true;
+		this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnAnyKeyReleased, this);
+		var eventRan = this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnKeyReleased, this);
+		var eventRan2 = this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnKeyCodeReleased, this);
+		this.runtime.isInUserInputEvent = false;
+		if (eventRan || eventRan2 || this.usedKeys[info.which])
+		{
+			this.usedKeys[info.which] = true;
+			info.preventDefault();
+		}
+	};
+	instanceProto.onWindowBlur = function ()
+	{
+		var i;
+		for (i = 0; i < 256; ++i)
+		{
+			if (!this.keyMap[i])
+				continue;		// key already up
+			this.keyMap[i] = false;
+			this.triggerKey = i;
+			this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnAnyKeyReleased, this);
+			var eventRan = this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnKeyReleased, this);
+			var eventRan2 = this.runtime.trigger(cr.plugins_.Keyboard.prototype.cnds.OnKeyCodeReleased, this);
+			if (eventRan || eventRan2)
+				this.usedKeys[i] = true;
+		}
+	};
+	instanceProto.saveToJSON = function ()
+	{
+		return { "triggerKey": this.triggerKey };
+	};
+	instanceProto.loadFromJSON = function (o)
+	{
+		this.triggerKey = o["triggerKey"];
+	};
+	function Cnds() {};
+	Cnds.prototype.IsKeyDown = function(key)
+	{
+		return this.keyMap[key];
+	};
+	Cnds.prototype.OnKey = function(key)
+	{
+		return (key === this.triggerKey);
+	};
+	Cnds.prototype.OnAnyKey = function(key)
+	{
+		return true;
+	};
+	Cnds.prototype.OnAnyKeyReleased = function(key)
+	{
+		return true;
+	};
+	Cnds.prototype.OnKeyReleased = function(key)
+	{
+		return (key === this.triggerKey);
+	};
+	Cnds.prototype.IsKeyCodeDown = function(key)
+	{
+		key = Math.floor(key);
+		if (key < 0 || key >= this.keyMap.length)
+			return false;
+		return this.keyMap[key];
+	};
+	Cnds.prototype.OnKeyCode = function(key)
+	{
+		return (key === this.triggerKey);
+	};
+	Cnds.prototype.OnKeyCodeReleased = function(key)
+	{
+		return (key === this.triggerKey);
+	};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.LastKeyCode = function (ret)
+	{
+		ret.set_int(this.triggerKey);
+	};
+	function fixedStringFromCharCode(kc)
+	{
+		kc = Math.floor(kc);
+		switch (kc) {
+		case 8:		return "backspace";
+		case 9:		return "tab";
+		case 13:	return "enter";
+		case 16:	return "shift";
+		case 17:	return "control";
+		case 18:	return "alt";
+		case 19:	return "pause";
+		case 20:	return "capslock";
+		case 27:	return "esc";
+		case 33:	return "pageup";
+		case 34:	return "pagedown";
+		case 35:	return "end";
+		case 36:	return "home";
+		case 37:	return "←";
+		case 38:	return "↑";
+		case 39:	return "→";
+		case 40:	return "↓";
+		case 45:	return "insert";
+		case 46:	return "del";
+		case 91:	return "left window key";
+		case 92:	return "right window key";
+		case 93:	return "select";
+		case 96:	return "numpad 0";
+		case 97:	return "numpad 1";
+		case 98:	return "numpad 2";
+		case 99:	return "numpad 3";
+		case 100:	return "numpad 4";
+		case 101:	return "numpad 5";
+		case 102:	return "numpad 6";
+		case 103:	return "numpad 7";
+		case 104:	return "numpad 8";
+		case 105:	return "numpad 9";
+		case 106:	return "numpad *";
+		case 107:	return "numpad +";
+		case 109:	return "numpad -";
+		case 110:	return "numpad .";
+		case 111:	return "numpad /";
+		case 112:	return "F1";
+		case 113:	return "F2";
+		case 114:	return "F3";
+		case 115:	return "F4";
+		case 116:	return "F5";
+		case 117:	return "F6";
+		case 118:	return "F7";
+		case 119:	return "F8";
+		case 120:	return "F9";
+		case 121:	return "F10";
+		case 122:	return "F11";
+		case 123:	return "F12";
+		case 144:	return "numlock";
+		case 145:	return "scroll lock";
+		case 186:	return ";";
+		case 187:	return "=";
+		case 188:	return ",";
+		case 189:	return "-";
+		case 190:	return ".";
+		case 191:	return "/";
+		case 192:	return "'";
+		case 219:	return "[";
+		case 220:	return "\\";
+		case 221:	return "]";
+		case 222:	return "#";
+		case 223:	return "`";
+		default:	return String.fromCharCode(kc);
+		}
+	};
+	Exps.prototype.StringFromKeyCode = function (ret, kc)
+	{
+		ret.set_string(fixedStringFromCharCode(kc));
+	};
+	pluginProto.exps = new Exps();
+}());
+;
+;
+cr.plugins_.Mouse = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.Mouse.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+		this.buttonMap = new Array(4);		// mouse down states
+		this.mouseXcanvas = 0;				// mouse position relative to canvas
+		this.mouseYcanvas = 0;
+		this.triggerButton = 0;
+		this.triggerType = 0;
+		this.triggerDir = 0;
+		this.handled = false;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+		var self = this;
+		if (!this.runtime.isDomFree)
+		{
+			jQuery(document).mousemove(
+				function(info) {
+					self.onMouseMove(info);
+				}
+			);
+			jQuery(document).mousedown(
+				function(info) {
+					self.onMouseDown(info);
+				}
+			);
+			jQuery(document).mouseup(
+				function(info) {
+					self.onMouseUp(info);
+				}
+			);
+			jQuery(document).dblclick(
+				function(info) {
+					self.onDoubleClick(info);
+				}
+			);
+			var wheelevent = function(info) {
+								self.onWheel(info);
+							};
+			document.addEventListener("mousewheel", wheelevent, false);
+			document.addEventListener("DOMMouseScroll", wheelevent, false);
+		}
+	};
+	var dummyoffset = {left: 0, top: 0};
+	instanceProto.onMouseMove = function(info)
+	{
+		var offset = this.runtime.isDomFree ? dummyoffset : jQuery(this.runtime.canvas).offset();
+		this.mouseXcanvas = info.pageX - offset.left;
+		this.mouseYcanvas = info.pageY - offset.top;
+	};
+	instanceProto.mouseInGame = function ()
+	{
+		if (this.runtime.fullscreen_mode > 0)
+			return true;
+		return this.mouseXcanvas >= 0 && this.mouseYcanvas >= 0
+		    && this.mouseXcanvas < this.runtime.width && this.mouseYcanvas < this.runtime.height;
+	};
+	instanceProto.onMouseDown = function(info)
+	{
+		if (!this.mouseInGame())
+			return;
+		this.buttonMap[info.which] = true;
+		this.runtime.isInUserInputEvent = true;
+		this.runtime.trigger(cr.plugins_.Mouse.prototype.cnds.OnAnyClick, this);
+		this.triggerButton = info.which - 1;	// 1-based
+		this.triggerType = 0;					// single click
+		this.runtime.trigger(cr.plugins_.Mouse.prototype.cnds.OnClick, this);
+		this.runtime.trigger(cr.plugins_.Mouse.prototype.cnds.OnObjectClicked, this);
+		this.runtime.isInUserInputEvent = false;
+	};
+	instanceProto.onMouseUp = function(info)
+	{
+		if (!this.buttonMap[info.which])
+			return;
+		if (this.runtime.had_a_click && !this.runtime.isMobile)
+			info.preventDefault();
+		this.runtime.had_a_click = true;
+		this.buttonMap[info.which] = false;
+		this.runtime.isInUserInputEvent = true;
+		this.triggerButton = info.which - 1;	// 1-based
+		this.runtime.trigger(cr.plugins_.Mouse.prototype.cnds.OnRelease, this);
+		this.runtime.isInUserInputEvent = false;
+	};
+	instanceProto.onDoubleClick = function(info)
+	{
+		if (!this.mouseInGame())
+			return;
+		info.preventDefault();
+		this.runtime.isInUserInputEvent = true;
+		this.triggerButton = info.which - 1;	// 1-based
+		this.triggerType = 1;					// double click
+		this.runtime.trigger(cr.plugins_.Mouse.prototype.cnds.OnClick, this);
+		this.runtime.trigger(cr.plugins_.Mouse.prototype.cnds.OnObjectClicked, this);
+		this.runtime.isInUserInputEvent = false;
+	};
+	instanceProto.onWheel = function (info)
+	{
+		var delta = info.wheelDelta ? info.wheelDelta : info.detail ? -info.detail : 0;
+		this.triggerDir = (delta < 0 ? 0 : 1);
+		this.handled = false;
+		this.runtime.isInUserInputEvent = true;
+		this.runtime.trigger(cr.plugins_.Mouse.prototype.cnds.OnWheel, this);
+		this.runtime.isInUserInputEvent = false;
+		if (this.handled && cr.isCanvasInputEvent(info))
+			info.preventDefault();
+	};
+	instanceProto.onWindowBlur = function ()
+	{
+		var i, len;
+		for (i = 0, len = this.buttonMap.length; i < len; ++i)
+		{
+			if (!this.buttonMap[i])
+				continue;
+			this.buttonMap[i] = false;
+			this.triggerButton = i - 1;
+			this.runtime.trigger(cr.plugins_.Mouse.prototype.cnds.OnRelease, this);
+		}
+	};
+	function Cnds() {};
+	Cnds.prototype.OnClick = function (button, type)
+	{
+		return button === this.triggerButton && type === this.triggerType;
+	};
+	Cnds.prototype.OnAnyClick = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.IsButtonDown = function (button)
+	{
+		return this.buttonMap[button + 1];	// jQuery uses 1-based buttons for some reason
+	};
+	Cnds.prototype.OnRelease = function (button)
+	{
+		return button === this.triggerButton;
+	};
+	Cnds.prototype.IsOverObject = function (obj)
+	{
+		var cnd = this.runtime.getCurrentCondition();
+		var mx = this.mouseXcanvas;
+		var my = this.mouseYcanvas;
+		return cr.xor(this.runtime.testAndSelectCanvasPointOverlap(obj, mx, my, cnd.inverted), cnd.inverted);
+	};
+	Cnds.prototype.OnObjectClicked = function (button, type, obj)
+	{
+		if (button !== this.triggerButton || type !== this.triggerType)
+			return false;	// wrong click type
+		return this.runtime.testAndSelectCanvasPointOverlap(obj, this.mouseXcanvas, this.mouseYcanvas, false);
+	};
+	Cnds.prototype.OnWheel = function (dir)
+	{
+		this.handled = true;
+		return dir === this.triggerDir;
+	};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	var lastSetCursor = null;
+	Acts.prototype.SetCursor = function (c)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		var cursor_style = ["auto", "pointer", "text", "crosshair", "move", "help", "wait", "none"][c];
+		if (lastSetCursor === cursor_style)
+			return;		// redundant
+		lastSetCursor = cursor_style;
+		document.body.style.cursor = cursor_style;
+	};
+	Acts.prototype.SetCursorSprite = function (obj)
+	{
+		if (this.runtime.isDomFree || this.runtime.isMobile || !obj)
+			return;
+		var inst = obj.getFirstPicked();
+		if (!inst || !inst.curFrame)
+			return;
+		var frame = inst.curFrame;
+		if (lastSetCursor === frame)
+			return;		// already set this frame
+		lastSetCursor = frame;
+		var datauri = frame.getDataUri();
+		var cursor_style = "url(" + datauri + ") " + Math.round(frame.hotspotX * frame.width) + " " + Math.round(frame.hotspotY * frame.height) + ", auto";
+		document.body.style.cursor = "";
+		document.body.style.cursor = cursor_style;
+	};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.X = function (ret, layerparam)
+	{
+		var layer, oldScale, oldZoomRate, oldParallaxX, oldAngle;
+		if (cr.is_undefined(layerparam))
+		{
+			layer = this.runtime.getLayerByNumber(0);
+			oldScale = layer.scale;
+			oldZoomRate = layer.zoomRate;
+			oldParallaxX = layer.parallaxX;
+			oldAngle = layer.angle;
+			layer.scale = 1;
+			layer.zoomRate = 1.0;
+			layer.parallaxX = 1.0;
+			layer.angle = 0;
+			ret.set_float(layer.canvasToLayer(this.mouseXcanvas, this.mouseYcanvas, true));
+			layer.scale = oldScale;
+			layer.zoomRate = oldZoomRate;
+			layer.parallaxX = oldParallaxX;
+			layer.angle = oldAngle;
+		}
+		else
+		{
+			if (cr.is_number(layerparam))
+				layer = this.runtime.getLayerByNumber(layerparam);
+			else
+				layer = this.runtime.getLayerByName(layerparam);
+			if (layer)
+				ret.set_float(layer.canvasToLayer(this.mouseXcanvas, this.mouseYcanvas, true));
+			else
+				ret.set_float(0);
+		}
+	};
+	Exps.prototype.Y = function (ret, layerparam)
+	{
+		var layer, oldScale, oldZoomRate, oldParallaxY, oldAngle;
+		if (cr.is_undefined(layerparam))
+		{
+			layer = this.runtime.getLayerByNumber(0);
+			oldScale = layer.scale;
+			oldZoomRate = layer.zoomRate;
+			oldParallaxY = layer.parallaxY;
+			oldAngle = layer.angle;
+			layer.scale = 1;
+			layer.zoomRate = 1.0;
+			layer.parallaxY = 1.0;
+			layer.angle = 0;
+			ret.set_float(layer.canvasToLayer(this.mouseXcanvas, this.mouseYcanvas, false));
+			layer.scale = oldScale;
+			layer.zoomRate = oldZoomRate;
+			layer.parallaxY = oldParallaxY;
+			layer.angle = oldAngle;
+		}
+		else
+		{
+			if (cr.is_number(layerparam))
+				layer = this.runtime.getLayerByNumber(layerparam);
+			else
+				layer = this.runtime.getLayerByName(layerparam);
+			if (layer)
+				ret.set_float(layer.canvasToLayer(this.mouseXcanvas, this.mouseYcanvas, false));
+			else
+				ret.set_float(0);
+		}
+	};
+	Exps.prototype.AbsoluteX = function (ret)
+	{
+		ret.set_float(this.mouseXcanvas);
+	};
+	Exps.prototype.AbsoluteY = function (ret)
+	{
+		ret.set_float(this.mouseYcanvas);
+	};
+	pluginProto.exps = new Exps();
+}());
+;
+;
 cr.plugins_.Sprite = function(runtime)
 {
 	this.runtime = runtime;
@@ -18417,6 +18928,580 @@ cr.plugins_.Tilemap = function(runtime)
 }());
 ;
 ;
+cr.plugins_.gamepad = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.gamepad.prototype;
+	var isSupported = false;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+		isSupported = !!(navigator["getGamepads"] || navigator["webkitGetGamepads"] || navigator["mozGetGamepads"] || navigator["gamepads"] || navigator["webkitGamepads"] || navigator["MozGamepads"] || window["cr_getGamepads"]);
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	var gamepadRuntime = null;
+	var gamepadInstance = null;
+	var controllers = new Array(16);
+	var padStates = new Array(16);
+	var padOldStates = new Array(16);
+	var osToken = "";
+	var browserToken = "";
+	function getPadState(i)
+	{
+		var j;
+		if (!padStates[i])
+		{
+			padStates[i] = new Array(20);
+			for (j = 0; j < 20; ++j)
+				padStates[i][j] = 0;
+		}
+		return padStates[i];
+	};
+	function getPadOldState(i)
+	{
+		var j;
+		if (!padOldStates[i])
+		{
+			padOldStates[i] = new Array(20);
+			for (j = 0; j < 20; ++j)
+				padOldStates[i][j] = 0;
+		}
+		return padOldStates[i];
+	};
+	function updatePadOldState(i)
+	{
+		var cur = getPadState(i);
+		var old = getPadOldState(i);
+		var j;
+		for (j = 0; j < 20; ++j)
+			old[j] = cur[j];
+	};
+	function clearPadState(i)
+	{
+		padStates[i] = null;
+		padOldStates[i] = null;
+	};
+	var axisOffset = 16;
+	var curCtrlMap = null;
+	var ctrlmap = {};
+	ctrlmap["windows"] = {};
+	ctrlmap["windows"]["firefox"] = {};
+	function doControllerMapping(index, isAxis, buttonmap, axismap)
+	{
+		if (isAxis)
+		{
+			if (index >= axismap.length)
+				return -1;			// unknown axis
+			if (cr.is_number(axismap[index]))
+				return axismap[index] + axisOffset;
+			else
+			{
+				return axismap[index];	// returning array
+			}
+		}
+		else
+		{
+			if (index >= buttonmap.length)
+				return -1;			// unknown button
+			return buttonmap[index];
+		}
+	};
+	var win_ff_xbox360_buttons = [0, 1, 2, 3, 4, 5, 8, 9, 10, 11];
+	var win_ff_xbox360_axes    = [0, 1, [7, 6], 2, 3, [14, 15], [12, 13]];
+	ctrlmap["windows"]["firefox"]["xbox360"] = function (index, isAxis)
+	{
+		return doControllerMapping(index, isAxis, win_ff_xbox360_buttons, win_ff_xbox360_axes);
+	};
+	var win_ff_lda_buttons = [2, 0, 1, 3, 4, 6, 5, 7, 8, 9];
+	var win_ff_lda_axes    = [0, 1, 2, 3, [14, 15], [12, 13]];
+	ctrlmap["windows"]["firefox"]["logitechdualaction"] = function (index, isAxis)
+	{
+		return doControllerMapping(index, isAxis, win_ff_lda_buttons, win_ff_lda_axes);
+	};
+	function defaultMap(index, isAxis)
+	{
+		if (isAxis)
+		{
+			if (index >= 4)
+				return -1;		// unknown axis
+			return index + axisOffset;
+		}
+		else
+		{
+			if (index >= 16)
+				return -1;		// unknown button
+			return index;
+		}
+	};
+	function getMapper(id_)
+	{
+		if (!curCtrlMap)
+			return defaultMap;
+		var controllertoken = "";
+		var id = id_.toLowerCase();
+		if (id.indexOf("xbox 360") > -1)
+			controllertoken = "xbox360";
+		else if (id.indexOf("logitech dual action") > -1)
+			controllertoken = "logitechdualaction";
+		var curmap = curCtrlMap[controllertoken];
+		return curmap || defaultMap;
+	};
+	function onConnected(e)
+	{
+		controllers[e["gamepad"]["index"]] = e["gamepad"];
+		gamepadRuntime.trigger(cr.plugins_.gamepad.prototype.cnds.OnGamepadConnected, gamepadInstance);
+	};
+	function onDisconnected(e)
+	{
+		gamepadRuntime.trigger(cr.plugins_.gamepad.prototype.cnds.OnGamepadDisconnected, gamepadInstance);
+		controllers[e["gamepad"]["index"]] = null;
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+		gamepadRuntime = this.runtime;
+		gamepadInstance = this;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+		this.deadzone = this.properties[0];
+		this.lastButton = 0;
+		var userAgent = navigator.userAgent;
+		osToken = "windows";
+		if (/mac/i.test(userAgent))
+			osToken = "mac";
+		curCtrlMap = ctrlmap[osToken];
+		browserToken = "chrome";
+		if (/firefox/i.test(userAgent))
+			browserToken = "firefox";
+		if (curCtrlMap)
+			curCtrlMap = curCtrlMap[browserToken];
+		window.addEventListener("webkitgamepadconnected", onConnected, false);
+		window.addEventListener("webkitgamepaddisconnected", onDisconnected, false);
+		window.addEventListener("MozGamepadConnected", onConnected, false);
+		window.addEventListener("MozGamepadDisconnected", onDisconnected, false);
+		window.addEventListener("gamepadconnected", onConnected, false);
+		window.addEventListener("gamepaddisconnected", onDisconnected, false);
+		this.runtime.tickMe(this);
+		this.activeControllers = [];
+	};
+	instanceProto.tick = function ()
+	{
+		this.activeControllers.length = 0;
+		var gamepads = null;
+		var synthetic = false;
+		if (navigator["getGamepads"])
+			gamepads = navigator["getGamepads"]();
+		else if (navigator["webkitGetGamepads"])
+			gamepads = navigator["webkitGetGamepads"]();
+		else if (navigator["mozGetGamepads"])
+			gamepads = navigator["mozGetGamepads"]();
+		else if (navigator["msGetGamepads"])
+			gamepads = navigator["msGetGamepads"]();
+		else if (this.runtime.isWindows8Capable && window["cr_getGamepads"])
+		{
+			gamepads = window["cr_getGamepads"]();
+			synthetic = true;
+		}
+		else
+			gamepads = navigator["gamepads"] || navigator["webkitGamepads"] || navigator["MozGamepads"] || controllers;
+		if (!gamepads)
+			return;
+		var i, len, j, lenj, mapfunc, index, value;
+		for (i = 0, len = gamepads.length; i < len; i++)
+		{
+			var pad = gamepads[i];
+			if (!pad)
+			{
+				clearPadState(i);
+				continue;
+			}
+			var state = getPadState(i);
+			var oldstate = getPadOldState(i);
+			updatePadOldState(i);
+			mapfunc = (synthetic ? defaultMap : getMapper(pad.id));
+			for (j = 0, lenj = pad["buttons"].length; j < lenj; j++)
+			{
+				if (typeof pad["buttons"][j]["value"] !== "undefined")
+					value = pad["buttons"][j]["value"];
+				else
+					value = pad["buttons"][j];
+				index = mapfunc(j, false, value);
+				if (index >= 0 && index < 20)
+				{
+					state[index] = value * 100;
+					if (state[index] >= 50 && oldstate[index] < 50)
+						this.lastButton = index;
+				}
+			}
+			for (j = 0, lenj = pad["axes"].length; j < lenj; j++)
+			{
+				value = pad["axes"][j];
+				index = mapfunc(j, true, value);
+				if (cr.is_number(index))
+				{
+					if (index >= 0 && index < 20)
+						state[index] = value * 100;
+				}
+				else
+				{
+					state[index[0]] = 0;
+					state[index[1]] = 0;
+					if (value <= 0)
+						state[index[0]] = Math.abs(value * 100);
+					else
+						state[index[1]] = Math.abs(value * 100);
+				}
+			}
+			this.activeControllers.push(pad);
+		}
+		for ( ; i < 20; ++i)
+			clearPadState(i);
+	};
+	instanceProto.saveToJSON = function ()
+	{
+		return { "lastButton": this.lastButton };
+	};
+	instanceProto.loadFromJSON = function (o)
+	{
+		this.lastButton = o["lastButton"];
+	};
+	function Cnds() {};
+	Cnds.prototype.SupportsGamepad = function ()
+	{
+		return isSupported;
+	};
+	Cnds.prototype.OnGamepadConnected = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnGamepadDisconnected = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.IsButtonDown = function (gamepad, button)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		if (!state)
+			return false;
+		var ret = state[button] >= 50;
+		if (ret)
+			this.lastButton = button;
+		return ret;
+	};
+	Cnds.prototype.OnButtonDown = function (gamepad, button)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		var oldstate = getPadOldState(gamepad);
+		if (!state || !oldstate)
+			return false;
+		var ret = state[button] >= 50 && oldstate[button] < 50;
+		if (ret)
+			this.lastButton = button;
+		return ret;
+	};
+	Cnds.prototype.OnButtonUp = function (gamepad, button)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		var oldstate = getPadOldState(gamepad);
+		if (!state || !oldstate)
+			return false;
+		var ret = state[button] < 50 && oldstate[button] >= 50;
+		if (ret)
+			this.lastButton = button;
+		return ret;
+	};
+	Cnds.prototype.HasGamepads = function ()
+	{
+		return this.activeControllers.length > 0;
+	};
+	Cnds.prototype.CompareAxis = function (gamepad, axis, comparison, value)
+	{
+		gamepad = Math.floor(gamepad);
+		axis = Math.floor(axis);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		if (!state)
+			return;
+		var axisvalue = state[axis + axisOffset];
+		var othervalue = 0;
+		if (axis % 2 === 0)										// is X axis
+			othervalue = state[axis + axisOffset + 1];	// get next axis (Y)
+		else
+			othervalue = state[axis + axisOffset - 1];	// get previous axis (X)
+		if (Math.sqrt(axisvalue * axisvalue + othervalue * othervalue) <= this.deadzone)
+			axisvalue = 0;
+		return cr.do_cmp(axisvalue, comparison, value);
+	};
+	Cnds.prototype.OnAnyButtonDown = function (gamepad)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		var oldstate = getPadOldState(gamepad);
+		if (!state || !oldstate)
+			return false;
+		var i, len;
+		for (i = 0, len = state.length; i < len; i++)
+		{
+			if (state[i] >= 50 && oldstate[i] < 50)
+			{
+				this.lastButton = i;
+				return true;
+			}
+		}
+		return false;
+	};
+	Cnds.prototype.OnAnyButtonUp = function (gamepad)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		var oldstate = getPadOldState(gamepad);
+		if (!state || !oldstate)
+			return false;
+		var i, len;
+		for (i = 0, len = state.length; i < len; i++)
+		{
+			if (state[i] < 50 && oldstate[i] >= 50)
+			{
+				this.lastButton = i;
+				return true;
+			}
+		}
+		return false;
+	};
+	Cnds.prototype.IsButtonIndexDown = function (gamepad, button)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		if (!state)
+			return false;
+		button = Math.floor(button);
+		if (button < 0 || button >= state.length)
+			return false;
+		var ret = state[button] >= 50;
+		if (ret)
+			this.lastButton = button;
+		return ret;
+	};
+	Cnds.prototype.OnButtonIndexDown = function (gamepad, button)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		var oldstate = getPadOldState(gamepad);
+		if (!state || !oldstate)
+			return false;
+		button = Math.floor(button);
+		if (button < 0 || button >= state.length)
+			return false;
+		var ret = state[button] >= 50 && oldstate[button] < 50;
+		if (ret)
+			this.lastButton = button;
+		return ret;
+	};
+	Cnds.prototype.OnButtonIndexUp = function (gamepad, button)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+			return false;
+		var state = getPadState(gamepad);
+		var oldstate = getPadOldState(gamepad);
+		if (!state || !oldstate)
+			return false;
+		button = Math.floor(button);
+		if (button < 0 || button >= state.length)
+			return false;
+		var ret = state[button] < 50 && oldstate[button] >= 50;
+		if (ret)
+			this.lastButton = button;
+		return ret;
+	};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.GamepadCount = function (ret)
+	{
+		ret.set_int(this.activeControllers.length);
+	};
+	Exps.prototype.GamepadID = function (ret, index)
+	{
+		if (index < 0 || index >= this.activeControllers.length)
+		{
+			ret.set_string("");
+			return;
+		}
+		ret.set_string(this.activeControllers[index].id);
+	};
+	Exps.prototype.GamepadAxes = function (ret, index)
+	{
+		if (index < 0 || index >= this.activeControllers.length)
+		{
+			ret.set_string("");
+			return;
+		}
+		var axes = this.activeControllers[index]["axes"];
+		var str = "";
+		var i, len;
+		for (i = 0, len = axes.length; i < len; i++)
+		{
+			str += "Axis " + i + ": " + Math.round(axes[i] * 100) + "\n";
+		}
+		ret.set_string(str);
+	};
+	Exps.prototype.GamepadButtons = function (ret, index)
+	{
+		if (index < 0 || index >= this.activeControllers.length)
+		{
+			ret.set_string("");
+			return;
+		}
+		var buttons = this.activeControllers[index]["buttons"];
+		var str = "";
+		var i, len, value;
+		for (i = 0, len = buttons.length; i < len; i++)
+		{
+			if (typeof buttons[i]["value"] !== "undefined")
+				value = buttons[i]["value"];
+			else
+				value = buttons[i];
+			str += "Button " + i + ": " + Math.round(value * 100) + "\n";
+		}
+		ret.set_string(str);
+	};
+	Exps.prototype.RawButton = function (ret, gamepad, index)
+	{
+		gamepad = Math.floor(gamepad);
+		index = Math.floor(index);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+		{
+			ret.set_float(0);
+			return;
+		}
+		var state = this.activeControllers[gamepad]["buttons"];
+		if (!state || index < 0 || index >= state.length)
+		{
+			ret.set_float(0);
+			return;
+		}
+		if (typeof state[index]["value"] !== "undefined")
+			ret.set_float(state[index]["value"]);
+		else
+			ret.set_float(state[index]);
+	};
+	Exps.prototype.RawAxis = function (ret, gamepad, index)
+	{
+		gamepad = Math.floor(gamepad);
+		index = Math.floor(index);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+		{
+			ret.set_float(0);
+			return;
+		}
+		var state = this.activeControllers[gamepad]["axes"];
+		if (!state || index < 0 || index >= state.length)
+		{
+			ret.set_float(0);
+			return;
+		}
+		ret.set_float(state[index]);
+	};
+	Exps.prototype.RawButtonCount = function (ret, gamepad)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+		{
+			ret.set_int(0);
+			return;
+		}
+		ret.set_int(this.activeControllers[gamepad]["buttons"].length);
+	};
+	Exps.prototype.RawAxisCount = function (ret, gamepad)
+	{
+		gamepad = Math.floor(gamepad);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+		{
+			ret.set_int(0);
+			return;
+		}
+		ret.set_int(this.activeControllers[gamepad]["axes"].length);
+	};
+	Exps.prototype.Button = function (ret, gamepad, index)
+	{
+		gamepad = Math.floor(gamepad);
+		index = Math.floor(index);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+		{
+			ret.set_float(0);
+			return;
+		}
+		var state = getPadState(gamepad);
+		if (!state || index < 0 || index >= axisOffset)
+		{
+			ret.set_float(0);
+			return;
+		}
+		ret.set_float(state[index]);
+	};
+	Exps.prototype.Axis = function (ret, gamepad, index)
+	{
+		gamepad = Math.floor(gamepad);
+		index = Math.floor(index);
+		if (gamepad < 0 || gamepad >= this.activeControllers.length)
+		{
+			ret.set_float(0);
+			return;
+		}
+		var state = getPadState(gamepad);
+		if (!state || index < 0 || index >= 4)
+		{
+			ret.set_float(0);
+			return;
+		}
+		var value = state[index + axisOffset];
+		var othervalue = 0;
+		if (index % 2 === 0)								// is X axis
+			othervalue = state[index + axisOffset + 1];		// get next axis (Y)
+		else
+			othervalue = state[index + axisOffset - 1];		// get previous axis (X)
+		if (Math.sqrt(value * value + othervalue * othervalue) <= this.deadzone)
+			value = 0;
+		ret.set_float(value);
+	};
+	Exps.prototype.LastButton = function (ret)
+	{
+		ret.set_int(this.lastButton);
+	};
+	pluginProto.exps = new Exps();
+}());
+;
+;
 cr.behaviors.Anchor = function(runtime)
 {
 	this.runtime = runtime;
@@ -19010,6 +20095,777 @@ cr.behaviors.EightDir = function(runtime)
 }());
 ;
 ;
+cr.behaviors.Pathfinding = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var cellData = {};
+	var behaviorProto = cr.behaviors.Pathfinding.prototype;
+	behaviorProto.onBeforeLayoutChange = function ()
+	{
+		var p, d;
+		for (p in cellData)
+		{
+			if (cellData.hasOwnProperty(p))
+			{
+				d = cellData[p];
+				d.pathfinder["unsetReady"]();
+				d.regenerate = true;
+			}
+		}
+	};
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+	var behtypeProto = behaviorProto.Type.prototype;
+	behtypeProto.onCreate = function()
+	{
+		this.obstacleTypes = [];		// object types to treat as obstacles in custom mode
+		this.costTypes = [];			// object types with cost: { obj: type, cost: n }
+	};
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	var behinstProto = behaviorProto.Instance.prototype;
+	behinstProto.onCreate = function()
+	{
+		this.cellSize = this.properties[0];
+		if (this.cellSize < 3)
+			this.cellSize = 3;
+		this.cellBorder = this.properties[1];
+		this.obstacles = this.properties[2];		// 0 = solids, 1 = custom
+		this.maxSpeed = this.properties[3];
+		this.acc = this.properties[4];
+		this.dec = this.properties[5];
+		this.av = cr.to_radians(this.properties[6]);
+		this.rotateEnabled = (this.properties[7] !== 0);
+		this.diagonalsEnabled = (this.properties[8] !== 0);
+		this.enabled = (this.properties[9] !== 0);
+		this.isMoving = false;
+		this.movingFromStopped = false;
+		this.firstTickMovingWhileMoving = false;
+		this.hasPath = false;
+		this.moveNode = 0;
+		this.a = this.inst.angle;
+		this.lastKnownAngle = this.inst.angle;
+		this.s = 0;
+		this.rabbitX = 0;
+		this.rabbitY = 0;
+		this.rabbitA = 0;
+		this.myHcells = Math.ceil(this.runtime.running_layout.width / this.cellSize);
+		this.myVcells = Math.ceil(this.runtime.running_layout.height / this.cellSize);
+		this.myPath = [];				// copy of path returned from pathfinder
+		this.delayFindPath = false;
+		this.delayPathX = 0;
+		this.delayPathY = 0;
+		this.is_destroyed = false;
+		this.isCalculating = false;
+		this.calcPathX = 0;
+		this.calcPathY = 0;
+		this.firstRun = true;
+		var self = this;
+		if (!this.recycled)
+		{
+			this.pathSuccessFn = function ()
+			{
+				if (self.is_destroyed)
+					return;
+				self.isCalculating = false;
+				self.copyResultPath();
+				self.hasPath = (self.myPath.length > 0);
+				self.moveNode = 0;
+				self.runtime.trigger(cr.behaviors.Pathfinding.prototype.cnds.OnPathFound, self.inst);
+				self.doDelayFindPath();		// run next pathfind if queued
+			};
+			this.pathFailFn = function ()
+			{
+				if (self.is_destroyed)
+					return;
+				self.isCalculating = false;
+				self.clearResultPath();
+				self.hasPath = false;
+				self.isMoving = false;
+				self.moveNode = 0;
+				self.runtime.trigger(cr.behaviors.Pathfinding.prototype.cnds.OnFailedToFindPath, self.inst);
+				self.doDelayFindPath();		// run next pathfind if queued
+			};
+		}
+	};
+	behinstProto.onDestroy = function ()
+	{
+		this.is_destroyed = true;		// start ignoring callbacks
+		this.delayFindPath = false;
+	};
+	behinstProto.saveToJSON = function ()
+	{
+		var o = {
+			"cs": this.cellSize,
+			"cb": this.cellBorder,
+			"ms": this.maxSpeed,
+			"acc": this.acc,
+			"dec": this.dec,
+			"av": this.av,
+			"re": this.rotateEnabled,
+			"de": this.diagonalsEnabled,
+			"im": this.isMoving,
+			"mfs": this.movingFromStopped,
+			"ftmwm": this.firstTickMovingWhileMoving,
+			"hp": this.hasPath,
+			"mn": this.moveNode,
+			"a": this.a,
+			"lka": this.lastKnownAngle,
+			"s": this.s,
+			"rx": this.rabbitX,
+			"ry": this.rabbitY,
+			"ra": this.rabbitA,
+			"myhc": this.myHcells,
+			"myvc": this.myVcells,
+			"path": this.myPath,
+			"en": this.enabled,
+			"fr": this.firstRun,
+			"obs": [],
+			"costs": []
+		};
+		if (this.isCalculating)
+		{
+			o["dfp"] = true;
+			o["dpx"] = this.calcPathX;
+			o["dpy"] = this.calcPathY;
+		}
+		else
+		{
+			o["dfp"] = this.delayFindPath;
+			o["dpx"] = this.delayPathX;
+			o["dpy"] = this.delayPathY;
+		}
+		var i, len;
+		for (i = 0, len = this.type.obstacleTypes.length; i < len; i++)
+		{
+			o["obs"].push(this.type.obstacleTypes[i].sid);
+		}
+		for (i = 0, len = this.type.costTypes.length; i < len; i++)
+		{
+			o["costs"].push({ "sid": this.type.costTypes[i].obj.sid, "cost": this.type.costTypes[i].cost });
+		}
+		return o;
+	};
+	behinstProto.loadFromJSON = function (o)
+	{
+		this.cellSize = o["cs"];
+		this.cellBorder = o["cb"];
+		this.maxSpeed = o["ms"];
+		this.acc = o["acc"];
+		this.dec = o["dec"];
+		this.av = o["av"];
+		this.rotateEnabled = o["re"];
+		this.diagonalsEnabled = o["de"];
+		this.isMoving = o["im"];
+		this.movingFromStopped = o["mfs"];
+		this.firstTickMovingWhileMoving = o["ftmwm"];
+		this.hasPath = o["hp"];
+		this.moveNode = o["mn"];
+		this.a = o["a"];
+		this.lastKnownAngle = o["lka"];
+		this.s = o["s"];
+		this.rabbitX = o["rx"];
+		this.rabbitY = o["ry"];
+		this.rabbitA = o["ra"];
+		this.myHcells = o["myhc"];
+		this.myVcells = o["myvc"];
+		this.myPath = o["path"];
+		this.enabled = o["en"];
+		this.firstRun = o["fr"];
+		this.delayFindPath = o["dfp"];
+		this.delayPathX = o["dpx"];
+		this.delayPathY = o["dpy"];
+		cr.clearArray(this.type.obstacleTypes);
+		var obsarr = o["obs"];
+		var i, len, t;
+		for (i = 0, len = obsarr.length; i < len; i++)
+		{
+			t = this.runtime.getObjectTypeBySid(obsarr[i]);
+			if (t)
+				this.type.obstacleTypes.push(t);
+		}
+		cr.clearArray(this.type.costTypes);
+		var costarr = o["costs"];
+		for (i = 0, len = costarr.length; i < len; i++)
+		{
+			t = this.runtime.getObjectTypeBySid(costarr[i]["sid"]);
+			if (t)
+				this.type.costTypes.push({ obj: t, cost: costarr[i]["cost"] });
+		}
+		this.getMyInfo().pathfinder["setDiagonals"](this.diagonalsEnabled);
+	};
+	behinstProto.afterLoad = function ()
+	{
+		this.getMyInfo().regenerate = true;
+	};
+	behinstProto.tick = function ()
+	{
+		if (!this.enabled || !this.isMoving)
+			return;
+		if (this.rotateEnabled && this.inst.angle !== this.lastKnownAngle)
+			this.a = this.inst.angle;
+		var dt = this.runtime.getDt(this.inst);
+		var targetAngle, da, dist, nextX, nextY, t, r, curveDist, curMaxSpeed;
+		var inst = this.inst;
+		var rabbitAheadDist = Math.min(this.maxSpeed * 0.4, Math.abs(this.inst.width) * 2);
+		var rabbitSpeed = Math.max(this.s * 1.5, 30);
+		if (this.moveNode < this.myPath.length)
+		{
+			nextX = this.myPath[this.moveNode].x;
+			nextY = this.myPath[this.moveNode].y;
+			dist = cr.distanceTo(this.rabbitX, this.rabbitY, nextX, nextY);
+			if (dist < 3 * rabbitSpeed * dt) // within 3 ticks of movement at the max speed
+			{
+				this.moveNode++;
+				this.rabbitX = nextX;
+				this.rabbitY = nextY;
+				if (this.moveNode < this.myPath.length)
+				{
+					nextX = this.myPath[this.moveNode].x;
+					nextY = this.myPath[this.moveNode].y;
+				}
+			}
+		}
+		else
+		{
+			nextX = this.myPath[this.myPath.length - 1].x;
+			nextY = this.myPath[this.myPath.length - 1].y;
+		}
+		this.rabbitA = cr.angleTo(this.rabbitX, this.rabbitY, nextX, nextY);
+		var distToRabbit = cr.distanceTo(inst.x, inst.y, this.rabbitX, this.rabbitY);
+		if (distToRabbit < rabbitAheadDist && this.moveNode < this.myPath.length)
+		{
+			var moveDist;
+			if (this.firstTickMovingWhileMoving)
+			{
+				moveDist = rabbitAheadDist;
+				this.firstTickMovingWhileMoving = false;
+			}
+			else
+				moveDist = rabbitSpeed * dt;
+			this.rabbitX += Math.cos(this.rabbitA) * moveDist;
+			this.rabbitY += Math.sin(this.rabbitA) * moveDist;
+		}
+		targetAngle = cr.angleTo(inst.x, inst.y, this.rabbitX, this.rabbitY);
+		da = cr.angleDiff(this.a, targetAngle);
+		var distToFinish = cr.distanceTo(inst.x, inst.y, this.myPath[this.myPath.length - 1].x, this.myPath[this.myPath.length - 1].y);
+		var decelDist = (this.maxSpeed * this.maxSpeed) / (2 * this.dec);
+		if (distToRabbit > 1)
+		{
+			this.a = cr.angleRotate(this.a, targetAngle, this.av * dt);
+			if (cr.to_degrees(da) <= 0.5)
+			{
+				curMaxSpeed = this.maxSpeed;
+			}
+			else if (cr.to_degrees(da) >= 120 || (this.movingFromStopped && this.moveNode === 0))
+			{
+				curMaxSpeed = 0;
+				this.movingFromStopped = true;	// we're way off, so make sure it rotates all the way round
+			}
+			else
+			{
+				t = da / this.av;
+				dist = cr.distanceTo(inst.x, inst.y, this.rabbitX, this.rabbitY);
+				r = dist / (2 * Math.sin(da));
+				curveDist = r * da;
+				curMaxSpeed = curveDist / t;
+				if (curMaxSpeed < 0)
+					curMaxSpeed = 0;
+				if (curMaxSpeed > this.maxSpeed)
+					curMaxSpeed = this.maxSpeed;
+			}
+			if (distToFinish < decelDist)
+				curMaxSpeed = Math.min(curMaxSpeed, (distToFinish / decelDist) * this.maxSpeed + (this.maxSpeed / 40));
+			this.s += this.acc * dt;
+			if (this.s > curMaxSpeed)
+				this.s = curMaxSpeed;
+		}
+		/*
+		targetAngle = cr.angleTo(inst.x, inst.y, nextX, nextY);
+		da = cr.angleDiff(this.a, targetAngle);
+		if (this.moveNode === 0)
+		{
+			this.nextMaxSpeed = this.maxSpeed;
+			if (cr.to_degrees(da) <= 0.5)
+			{
+				this.s += this.acc * dt;
+				if (this.s > this.maxSpeed)
+					this.s = this.maxSpeed;
+			}
+			else
+			{
+				this.a = cr.angleRotate(this.a, targetAngle, this.av * dt);
+				this.s = 0;
+			}
+		}
+		else
+		{
+			if (cr.to_degrees(da) <= 0.5)
+				this.nextMaxSpeed = this.maxSpeed;
+			this.s += this.acc * dt;
+			if (this.s > Math.min(this.maxSpeed, this.nextMaxSpeed))
+				this.s = Math.min(this.maxSpeed, this.nextMaxSpeed);
+			this.a = cr.angleRotate(this.a, targetAngle, this.av * dt);
+			if (cr.to_degrees(da) > 50)
+				this.s = 0;
+		}
+		*/
+		inst.x += Math.cos(this.a) * this.s * dt;
+		inst.y += Math.sin(this.a) * this.s * dt;
+		if (this.rotateEnabled)
+		{
+			inst.angle = this.a;
+			this.lastKnownAngle = this.a;
+		}
+		inst.set_bbox_changed();
+		if (this.moveNode === this.myPath.length && cr.distanceTo(inst.x, inst.y, nextX, nextY) < Math.max(3 * this.s * dt, 10))
+		{
+			this.isMoving = false;
+			this.hasPath = false;
+			this.moveNode = 0;
+			this.s = 0;
+			this.runtime.trigger(cr.behaviors.Pathfinding.prototype.cnds.OnArrived, inst);
+			return;
+		}
+	};
+	behinstProto.tick2 = function ()
+	{
+		if (!this.enabled)
+			return;
+		this.generateMap();			// not actually done every tick, just checks for regenerate flag
+		this.doDelayFindPath();
+	};
+	behinstProto.doDelayFindPath = function()
+	{
+		if (this.delayFindPath && !this.is_destroyed)
+		{
+			this.delayFindPath = false;
+			this.doFindPath(this.inst.x, this.inst.y, this.delayPathX, this.delayPathY);
+		}
+	};
+	behinstProto.getMyInfo = function ()
+	{
+		var cellkey = "" + this.cellSize + "," + this.cellBorder;
+		if (!cellData.hasOwnProperty(cellkey))
+		{
+			cellData[cellkey] = {
+				pathfinder: new window["Pathfinder"](),
+				cells: null,
+				regenerate: false,
+				regenerateRegions: []
+			};
+		}
+		return cellData[cellkey];
+	};
+	behinstProto.generateMap = function ()
+	{
+		var myinfo = this.getMyInfo();
+		if (myinfo.pathfinder["isReady"]() && !myinfo.regenerate && !myinfo.regenerateRegions.length)
+			return;		// already got a map and not marked to regenerate
+		var arr, x, y, lenx, leny, i, len, r, cx1, cy1, cx2, cy2, q;
+		if (!myinfo.pathfinder["isReady"]() || myinfo.regenerate)
+		{
+			this.myHcells = Math.ceil(this.runtime.running_layout.width / this.cellSize);
+			this.myVcells = Math.ceil(this.runtime.running_layout.height / this.cellSize);
+			arr = [];
+			arr.length = this.myHcells;
+			lenx = this.myHcells;
+			leny = this.myVcells;
+			for (x = 0; x < lenx; ++x)
+			{
+				arr[x] = [];
+				arr[x].length = leny;
+				for (y = 0; y < leny; ++y)
+					arr[x][y] = this.queryCellCollision(x, y);
+			}
+			myinfo.cells = arr;
+			myinfo.pathfinder["init"](this.myHcells, this.myVcells, arr, this.diagonalsEnabled);
+			myinfo.regenerate = false;
+			cr.clearArray(myinfo.regenerateRegions);
+		}
+		else if (myinfo.regenerateRegions.length)
+		{
+			for (i = 0, len = myinfo.regenerateRegions.length; i < len; ++i)
+			{
+				r = myinfo.regenerateRegions[i];
+				cx1 = r[0];
+				cy1 = r[1];
+				cx2 = r[2];
+				cy2 = r[3];
+				arr = [];
+				lenx = cx2 - cx1;
+				leny = cy2 - cy1;
+				arr.length = lenx;
+				for (x = 0; x < lenx; ++x)
+				{
+					arr[x] = [];
+					arr[x].length = leny;
+					for (y = 0; y < leny; ++y)
+					{
+						q = this.queryCellCollision(cx1 + x, cy1 + y);
+						arr[x][y] = q;
+						myinfo.cells[cx1 + x][cy1 + y] = q;
+					}
+				}
+				myinfo.pathfinder["updateRegion"](cx1, cy1, lenx, leny, arr);
+			}
+			cr.clearArray(myinfo.regenerateRegions);
+		}
+	};
+	behinstProto.clearResultPath = function ()
+	{
+		var i, len;
+		for (i = 0, len = this.myPath.length; i < len; i++)
+			window["freeResultNode"](this.myPath[i]);
+		cr.clearArray(this.myPath);
+	};
+	behinstProto.copyResultPath = function ()
+	{
+		var pathfinder = this.getMyInfo().pathfinder;
+		var pathList = pathfinder["pathList"];
+		this.clearResultPath();
+		var i, len, n, m;
+		for (i = 0, len = pathList.length; i < len; i++)
+		{
+			n = pathList[i];
+			m = window["allocResultNode"]();
+			m.x = (n.x + 0.5) * this.cellSize;
+			m.y = (n.y + 0.5) * this.cellSize;
+			this.myPath.push(m);
+		}
+	};
+	var candidates = [];
+	var tmpRect = new cr.rect();
+	behinstProto.queryCellCollision = function (x_, y_)
+	{
+		var i, len, t, j, lenj, cost, ret = 0;
+		tmpRect.left = x_ * this.cellSize - this.cellBorder;
+		tmpRect.top = y_ * this.cellSize - this.cellBorder;
+		tmpRect.right = (x_ + 1) * this.cellSize + this.cellBorder;
+		tmpRect.bottom = (y_ + 1) * this.cellSize + this.cellBorder;
+		if (this.obstacles === 0)	// solids
+		{
+			if (this.runtime.testRectOverlapSolid(tmpRect))
+				return window["PF_OBSTACLE"];
+		}
+		else
+		{
+			this.runtime.getTypesCollisionCandidates(this.inst.layer, this.type.obstacleTypes, tmpRect, candidates);
+			for (i = 0, len = candidates.length; i < len; ++i)
+			{
+				if (this.runtime.testRectOverlap(tmpRect, candidates[i]))
+				{
+					cr.clearArray(candidates);
+					return window["PF_OBSTACLE"];
+				}
+			}
+			candidates.length = 0;
+		}
+		for (i = 0, len = this.type.costTypes.length; i < len; i++)
+		{
+			t = this.type.costTypes[i].obj;
+			cost = this.type.costTypes[i].cost;
+			this.runtime.getCollisionCandidates(this.inst.layer, t, tmpRect, candidates);
+			for (j = 0, lenj = candidates.length; j < lenj; ++j)
+			{
+				if (this.runtime.testRectOverlap(tmpRect, candidates[j]))
+					ret += cost;
+			}
+			cr.clearArray(candidates);
+		}
+		return ret;
+	};
+	behinstProto.doFindPath = function (startX, startY, endX, endY)
+	{
+		var pathfinder = this.getMyInfo().pathfinder;
+		if (!pathfinder["isReady"]())
+			return false;		// not yet ready
+		this.isCalculating = true;
+		this.calcPathX = endX;
+		this.calcPathY = endY;
+		var cellX = Math.floor(startX / this.cellSize);
+		var cellY = Math.floor(startY / this.cellSize);
+		var destCellX = Math.floor(endX / this.cellSize);
+		var destCellY = Math.floor(endY / this.cellSize);
+		var bestDist, bestX, bestY, x, y, dx, dy, curDist;
+		if (pathfinder["at"](destCellX, destCellY) === window["PF_OBSTACLE"])
+		{
+			bestDist = 1000000;
+			bestX = 0;
+			bestY = 0;
+			for (x = 0; x < this.myHcells; x++)
+			{
+				for (y = 0; y < this.myVcells; y++)
+				{
+					if (pathfinder["at"](x, y) !== window["PF_OBSTACLE"])
+					{
+						dx = destCellX - x;
+						dy = destCellY - y;
+						curDist = dx*dx + dy*dy;
+						if (curDist < bestDist)
+						{
+							bestDist = curDist;
+							bestX = x;
+							bestY = y;
+						}
+					}
+				}
+			}
+			destCellX = bestX;
+			destCellY = bestY;
+		}
+		var self = this;
+		pathfinder["findPath"](cellX, cellY, destCellX, destCellY, this.pathSuccessFn, this.pathFailFn);
+	};
+	function Cnds() {};
+	Cnds.prototype.OnPathFound = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnFailedToFindPath = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.IsCellObstacle = function (x_, y_)
+	{
+		return (this.getMyInfo().pathfinder["at"](x_, y_) === window["PF_OBSTACLE"]);
+	};
+	Cnds.prototype.IsCalculatingPath = function ()
+	{
+		return this.isCalculating;
+	};
+	Cnds.prototype.IsMoving = function ()
+	{
+		return this.isMoving;
+	};
+	Cnds.prototype.OnArrived = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.CompareSpeed = function (cmp, x)
+	{
+		return cr.do_cmp(this.isMoving ? this.s : 0, cmp, x);
+	};
+	Cnds.prototype.DiagonalsEnabled = function (cmp, x)
+	{
+		return this.diagonalsEnabled;
+	};
+	behaviorProto.cnds = new Cnds();
+	function Acts() {};
+	Acts.prototype.FindPath = function (x_, y_)
+	{
+		if (!this.enabled)
+			return;
+		if (this.isCalculating || !this.getMyInfo().pathfinder["isReady"]())
+		{
+			this.delayFindPath = true;
+			this.delayPathX = x_;
+			this.delayPathY = y_;
+		}
+		else
+			this.doFindPath(this.inst.x, this.inst.y, x_, y_);
+	};
+	Acts.prototype.StartMoving = function ()
+	{
+		if (this.hasPath)
+		{
+			if (this.isMoving)
+				this.firstTickMovingWhileMoving = true;
+			this.movingFromStopped = !this.isMoving;
+			this.isMoving = true;
+			this.rabbitX = this.inst.x;
+			this.rabbitY = this.inst.y;
+			this.rabbitA = this.inst.angle;
+		}
+	};
+	Acts.prototype.Stop = function ()
+	{
+		this.isMoving = false;
+	};
+	Acts.prototype.SetEnabled = function (e)
+	{
+		this.enabled = (e !== 0);
+	};
+	Acts.prototype.RegenerateMap = function ()
+	{
+		this.getMyInfo().regenerate = true;
+	};
+	Acts.prototype.AddObstacle = function (obj_)
+	{
+		var obstacleTypes = this.type.obstacleTypes;
+		if (obstacleTypes.indexOf(obj_) !== -1)
+			return;
+		var i, len, t;
+		for (i = 0, len = obstacleTypes.length; i < len; i++)
+		{
+			t = obstacleTypes[i];
+			if (t.is_family && t.members.indexOf(obj_) !== -1)
+				return;
+		}
+		obstacleTypes.push(obj_);
+	};
+	Acts.prototype.ClearObstacles = function ()
+	{
+		cr.clearArray(this.type.obstacleTypes);
+	};
+	Acts.prototype.AddCost = function (obj_, cost_)
+	{
+		var costTypes = this.type.costTypes;
+		var i, len, t;
+		for (i = 0, len = costTypes.length; i < len; i++)
+		{
+			t = costTypes[i].obj;
+			if (t === obj_)
+				return;			// already added this one
+			if (t.is_family && t.members.indexOf(obj_) !== -1)
+				return;			// already added via family
+		}
+		costTypes.push({ obj: obj_, cost: cost_ });
+	};
+	Acts.prototype.ClearCost = function ()
+	{
+		cr.clearArray(this.type.costTypes);
+	};
+	Acts.prototype.SetMaxSpeed = function (x_)
+	{
+		this.maxSpeed = x_;
+	};
+	Acts.prototype.SetSpeed = function (x_)
+	{
+		if (x_ < 0)
+			x_ = 0;
+		if (x_ > this.maxSpeed)
+			x_ = this.maxSpeed;
+		this.s = x_;
+	};
+	Acts.prototype.SetAcc = function (x_)
+	{
+		this.acc = x_;
+	};
+	Acts.prototype.SetDec = function (x_)
+	{
+		this.dec = x_;
+	};
+	Acts.prototype.SetRotateSpeed = function (x_)
+	{
+		this.av = cr.to_radians(x_);
+	};
+	Acts.prototype.SetDiagonalsEnabled = function (e)
+	{
+		this.diagonalsEnabled = (e !== 0);
+		this.getMyInfo().pathfinder["setDiagonals"](this.diagonalsEnabled);
+	};
+	Acts.prototype.RegenerateRegion = function (startx, starty, endx, endy)
+	{
+		this.doRegenerateRegion(startx, starty, endx, endy);
+	};
+	Acts.prototype.RegenerateObjectRegion = function (obj)
+	{
+		if (!obj)
+			return;
+		var instances = obj.getCurrentSol().getObjects();
+		var i, len, inst;
+		for (i = 0, len = instances.length; i < len; ++i)
+		{
+			inst = instances[i];
+			if (!inst.update_bbox)
+				continue;
+			inst.update_bbox();
+			this.doRegenerateRegion(inst.bbox.left, inst.bbox.top, inst.bbox.right, inst.bbox.bottom);
+		}
+	};
+	behinstProto.doRegenerateRegion = function (startx, starty, endx, endy)
+	{
+		var x1 = Math.min(startx, endx) - this.cellBorder;
+		var y1 = Math.min(starty, endy) - this.cellBorder;
+		var x2 = Math.max(startx, endx) + this.cellBorder;
+		var y2 = Math.max(starty, endy) + this.cellBorder;
+		var cellX1 = Math.max(Math.floor(x1 / this.cellSize), 0);
+		var cellY1 = Math.max(Math.floor(y1 / this.cellSize), 0);
+		var cellX2 = Math.min(Math.ceil(x2 / this.cellSize), this.myHcells);
+		var cellY2 = Math.min(Math.ceil(y2 / this.cellSize), this.myVcells);
+		if (cellX1 >= cellX2 || cellY1 >= cellY2)
+			return;		// empty area to regenerate
+		this.getMyInfo().regenerateRegions.push([cellX1, cellY1, cellX2, cellY2]);
+	};
+	behaviorProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.NodeCount = function (ret)
+	{
+		ret.set_int(this.myPath.length);
+	};
+	Exps.prototype.NodeXAt = function (ret, i)
+	{
+		i = Math.floor(i);
+		if (i < 0 || i >= this.myPath.length)
+			ret.set_float(0);
+		else
+			ret.set_float(this.myPath[i].x);
+	};
+	Exps.prototype.NodeYAt = function (ret, i)
+	{
+		i = Math.floor(i);
+		if (i < 0 || i >= this.myPath.length)
+			ret.set_float(0);
+		else
+			ret.set_float(this.myPath[i].y);
+	};
+	Exps.prototype.CellSize = function (ret)
+	{
+		ret.set_int(this.cellSize);
+	};
+	Exps.prototype.RabbitX = function (ret)
+	{
+		ret.set_float(this.rabbitX);
+	};
+	Exps.prototype.RabbitY = function (ret)
+	{
+		ret.set_float(this.rabbitY);
+	};
+	Exps.prototype.MaxSpeed = function (ret)
+	{
+		ret.set_float(this.maxSpeed);
+	};
+	Exps.prototype.Acceleration = function (ret)
+	{
+		ret.set_float(this.acc);
+	};
+	Exps.prototype.Deceleration = function (ret)
+	{
+		ret.set_float(this.dec);
+	};
+	Exps.prototype.RotateSpeed = function (ret)
+	{
+		ret.set_float(cr.to_degrees(this.av));
+	};
+	Exps.prototype.MovingAngle = function (ret)
+	{
+		ret.set_float(cr.to_degrees(this.a));
+	};
+	Exps.prototype.CurrentNode = function (ret)
+	{
+		ret.set_int(this.moveNode);
+	};
+	Exps.prototype.Speed = function (ret)
+	{
+		ret.set_float(this.isMoving ? this.s : 0);
+	};
+	behaviorProto.exps = new Exps();
+}());
+;
+;
 cr.behaviors.Pin = function(runtime)
 {
 	this.runtime = runtime;
@@ -19311,6 +21167,9 @@ cr.behaviors.solid = function(runtime)
 	behaviorProto.acts = new Acts();
 }());
 cr.getObjectRefTable = function () { return [
+	cr.plugins_.Mouse,
+	cr.plugins_.gamepad,
+	cr.plugins_.Keyboard,
 	cr.plugins_.Sprite,
 	cr.plugins_.Text,
 	cr.plugins_.Tilemap,
@@ -19318,8 +21177,9 @@ cr.getObjectRefTable = function () { return [
 	cr.behaviors.Pin,
 	cr.behaviors.EightDir,
 	cr.behaviors.bound,
+	cr.behaviors.Pathfinding,
 	cr.behaviors.Anchor,
-	cr.system_object.prototype.cnds.OnLayoutStart,
+	cr.system_object.prototype.cnds.IsGroupActive,
 	cr.plugins_.Sprite.prototype.cnds.CompareX,
 	cr.system_object.prototype.exps.viewportleft,
 	cr.plugins_.Sprite.prototype.exps.Width,
@@ -19329,17 +21189,49 @@ cr.getObjectRefTable = function () { return [
 	cr.system_object.prototype.acts.ScrollX,
 	cr.system_object.prototype.exps.lerp,
 	cr.system_object.prototype.exps.scrollx,
+	cr.system_object.prototype.cnds.OnLayoutStart,
+	cr.system_object.prototype.cnds.For,
 	cr.plugins_.Sprite.prototype.acts.SetPos,
+	cr.system_object.prototype.exps.random,
+	cr.system_object.prototype.exps.layoutwidth,
+	cr.system_object.prototype.exps.layoutheight,
+	cr.plugins_.Sprite.prototype.acts.Spawn,
+	cr.system_object.prototype.exps.layerindex,
+	cr.system_object.prototype.cnds.Compare,
+	cr.system_object.prototype.exps.loopindex,
+	cr.plugins_.Sprite.prototype.acts.SetMirrored,
 	cr.plugins_.Sprite.prototype.exps.X,
 	cr.plugins_.Sprite.prototype.exps.Y,
 	cr.behaviors.Pin.prototype.acts.Pin,
+	cr.behaviors.EightDir.prototype.acts.SetMaxSpeed,
+	cr.behaviors.EightDir.prototype.acts.SetAcceleration,
+	cr.behaviors.EightDir.prototype.acts.SetDeceleration,
+	cr.behaviors.Pathfinding.prototype.acts.SetMaxSpeed,
+	cr.behaviors.Pathfinding.prototype.acts.SetAcc,
+	cr.behaviors.Pathfinding.prototype.acts.SetDec,
 	cr.behaviors.EightDir.prototype.cnds.IsMoving,
+	cr.behaviors.Pathfinding.prototype.cnds.IsMoving,
 	cr.plugins_.Sprite.prototype.acts.SetAnim,
 	cr.plugins_.Sprite.prototype.cnds.IsBetweenAngles,
-	cr.plugins_.Sprite.prototype.acts.SetMirrored,
+	cr.plugins_.Sprite.prototype.exps.ImagePointX,
+	cr.plugins_.Sprite.prototype.exps.ImagePointY,
+	cr.plugins_.Mouse.prototype.cnds.OnClick,
+	cr.behaviors.Pathfinding.prototype.acts.FindPath,
+	cr.plugins_.Mouse.prototype.exps.X,
+	cr.plugins_.Mouse.prototype.exps.Y,
+	cr.behaviors.Pathfinding.prototype.cnds.OnPathFound,
+	cr.behaviors.Pathfinding.prototype.acts.StartMoving,
+	cr.behaviors.Pathfinding.prototype.acts.Stop,
+	cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
+	cr.behaviors.EightDir.prototype.acts.SimulateControl,
+	cr.plugins_.Sprite.prototype.cnds.OnCollision,
+	cr.system_object.prototype.acts.AddVar,
+	cr.plugins_.Sprite.prototype.acts.Destroy,
 	cr.system_object.prototype.acts.SetVar,
 	cr.system_object.prototype.acts.GoToLayoutByName,
 	cr.system_object.prototype.cnds.CompareVar,
 	cr.system_object.prototype.exps.layoutname,
-	cr.system_object.prototype.acts.GoToLayout
+	cr.system_object.prototype.acts.GoToLayout,
+	cr.plugins_.Text.prototype.acts.SetText,
+	cr.system_object.prototype.exps.zeropad
 ];};
