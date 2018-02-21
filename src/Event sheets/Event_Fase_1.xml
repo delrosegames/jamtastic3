@@ -4,7 +4,7 @@
     <name>Event_Fase_1</name>
     <events>
         <include>Event_UI</include>
-        <include>Event_TestChar</include>
+        <include>Event_Personagem</include>
         <event-block sid="745768869083320">
             <conditions>
                 <condition id="-2" name="On start of layout" sid="789713728961725" type="System" />
@@ -13,27 +13,27 @@
         </event-block>
         <event-block sid="541669110716154">
             <conditions>
-                <condition id="-1" name="Compare X" sid="230008469075635" type="TestCharBase">
+                <condition id="-1" name="Compare X" sid="230008469075635" type="MeninaBase">
                     <param id="0" name="Comparison">2</param>
-                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Personagem&quot;) + CarroAlegorico.Width + (TestCharBase.width/2)</param>
+                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Personagem&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
                 </condition>
             </conditions>
             <actions>
-                <action id="-1" name="Set X" sid="551996743426045" type="TestCharBase">
-                    <param id="0" name="X">ViewportLeft(&quot;Personagem&quot;) + CarroAlegorico.Width + (TestCharBase.width/2)</param>
+                <action id="-1" name="Set X" sid="551996743426045" type="MeninaBase">
+                    <param id="0" name="X">ViewportLeft(&quot;Personagem&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
                 </action>
             </actions>
         </event-block>
         <event-block sid="943772023098125">
             <conditions>
-                <condition id="-1" name="Compare X" sid="197427696722246" type="TestCharBase">
+                <condition id="-1" name="Compare X" sid="197427696722246" type="MeninaBase">
                     <param id="0" name="Comparison">4</param>
-                    <param id="1" name="X co-ordinate">ViewportRight(&quot;Personagem&quot;) - (TestCharBase.width/2)</param>
+                    <param id="1" name="X co-ordinate">ViewportRight(&quot;Personagem&quot;) - (MeninaBase.width/2)</param>
                 </condition>
             </conditions>
             <actions>
-                <action id="-1" name="Set X" sid="809103882736360" type="TestCharBase">
-                    <param id="0" name="X">ViewportRight(&quot;Personagem&quot;) - (TestCharBase.width/2)</param>
+                <action id="-1" name="Set X" sid="809103882736360" type="MeninaBase">
+                    <param id="0" name="X">ViewportRight(&quot;Personagem&quot;) - (MeninaBase.width/2)</param>
                 </action>
             </actions>
         </event-block>
@@ -43,7 +43,7 @@
             </conditions>
             <actions>
                 <action id="-5" name="Scroll to X" sid="172580347016219" type="System">
-                    <param id="0" name="X">lerp(scrollx, scrollx + 1, VELOCIDADESCROLL)</param>
+                    <param id="0" name="X">lerp(scrollx, scrollx + 1, VELOCIDADE_SCROLL)</param>
                 </action>
             </actions>
         </event-block>

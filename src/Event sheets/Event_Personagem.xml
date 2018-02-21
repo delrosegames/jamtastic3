@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2eventsheet>
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
-    <name>Event_TestChar</name>
+    <name>Event_Personagem</name>
     <events>
         <variable constant="0" name="PersonagemVelocidade" sid="309284899548003" static="0" type="number">800</variable>
         <variable constant="0" name="PersonagemAceleracao" sid="960434294198752" static="0" type="number">3000</variable>
@@ -11,30 +11,30 @@
                 <condition id="-2" name="On start of layout" sid="202697245062605" type="System" />
             </conditions>
             <actions>
-                <action id="-3" name="Set position" sid="750980547821989" type="TestChar">
-                    <param id="0" name="X">TestCharBase.X</param>
-                    <param id="1" name="Y">TestCharBase.Y</param>
+                <action id="-3" name="Set position" sid="750980547821989" type="Menina">
+                    <param id="0" name="X">MeninaBase.X</param>
+                    <param id="1" name="Y">MeninaBase.Y</param>
                 </action>
-                <action behavior="Pin" id="0" name="Pin to object" sid="807701040548428" type="TestChar">
-                    <param id="0" name="Pin to">TestCharBase</param>
+                <action behavior="Pin" id="0" name="Pin to object" sid="807701040548428" type="Menina">
+                    <param id="0" name="Pin to">MeninaBase</param>
                     <param id="1" name="Mode">1</param>
                 </action>
-                <action behavior="8Direction" id="4" name="Set max speed" sid="239823718376400" type="TestCharBase">
+                <action behavior="8Direction" id="4" name="Set max speed" sid="239823718376400" type="MeninaBase">
                     <param id="0" name="Max Speed">PersonagemVelocidade</param>
                 </action>
-                <action behavior="8Direction" id="5" name="Set acceleration" sid="702725810260996" type="TestCharBase">
+                <action behavior="8Direction" id="5" name="Set acceleration" sid="702725810260996" type="MeninaBase">
                     <param id="0" name="Acceleration">PersonagemAceleracao</param>
                 </action>
-                <action behavior="8Direction" id="6" name="Set deceleration" sid="895184454335706" type="TestCharBase">
+                <action behavior="8Direction" id="6" name="Set deceleration" sid="895184454335706" type="MeninaBase">
                     <param id="0" name="Deceleration">PersonagemDeceleracao</param>
                 </action>
-                <action behavior="Pathfinding" id="7" name="Set max speed" sid="657398500054100" type="TestCharBase">
+                <action behavior="Pathfinding" id="7" name="Set max speed" sid="657398500054100" type="MeninaBase">
                     <param id="0" name="Speed">PersonagemVelocidade</param>
                 </action>
-                <action behavior="Pathfinding" id="8" name="Set acceleration" sid="474613452544348" type="TestCharBase">
+                <action behavior="Pathfinding" id="8" name="Set acceleration" sid="474613452544348" type="MeninaBase">
                     <param id="0" name="Acceleration">PersonagemAceleracao</param>
                 </action>
-                <action behavior="Pathfinding" id="9" name="Set deceleration" sid="913191298950522" type="TestCharBase">
+                <action behavior="Pathfinding" id="9" name="Set deceleration" sid="913191298950522" type="MeninaBase">
                     <param id="0" name="Deceleration">PersonagemDeceleracao</param>
                 </action>
             </actions>
@@ -43,11 +43,11 @@
             <sub-events>
                 <event-block any="1" sid="579241525858957">
                     <conditions>
-                        <condition behavior="8Direction" id="0" name="Is moving" sid="153830605458690" type="TestCharBase" />
-                        <condition behavior="Pathfinding" id="4" name="Is moving along path" sid="591273756883844" type="TestCharBase" />
+                        <condition behavior="8Direction" id="0" name="Is moving" sid="153830605458690" type="MeninaBase" />
+                        <condition behavior="Pathfinding" id="4" name="Is moving along path" sid="591273756883844" type="MeninaBase" />
                     </conditions>
                     <actions>
-                        <action id="4" name="Set animation" sid="350127783920140" type="TestChar">
+                        <action id="4" name="Set animation" sid="350127783920140" type="Menina">
                             <param id="0" name="Animation">&quot;Andando&quot;</param>
                             <param id="1" name="From">0</param>
                         </action>
@@ -55,11 +55,11 @@
                 </event-block>
                 <event-block sid="723280745067199">
                     <conditions>
-                        <condition behavior="8Direction" id="0" inverted="1" name="Is moving" sid="771552727388510" type="TestCharBase" />
-                        <condition behavior="Pathfinding" id="4" inverted="1" name="Is moving along path" sid="801982734224388" type="TestCharBase" />
+                        <condition behavior="8Direction" id="0" inverted="1" name="Is moving" sid="771552727388510" type="MeninaBase" />
+                        <condition behavior="Pathfinding" id="4" inverted="1" name="Is moving along path" sid="801982734224388" type="MeninaBase" />
                     </conditions>
                     <actions>
-                        <action id="4" name="Set animation" sid="460081623079259" type="TestChar">
+                        <action id="4" name="Set animation" sid="460081623079259" type="Menina">
                             <param id="0" name="Animation">&quot;Parado&quot;</param>
                             <param id="1" name="From">1</param>
                         </action>
@@ -67,31 +67,48 @@
                 </event-block>
                 <event-block any="1" sid="520342782168065">
                     <conditions>
-                        <condition id="-13" name="Is between angles" sid="612996075163926" type="TestCharBase">
+                        <condition id="-13" name="Is between angles" sid="612996075163926" type="MeninaBase">
                             <param id="0" name="First angle">0</param>
                             <param id="1" name="Second angle">90</param>
                         </condition>
-                        <condition id="-13" name="Is between angles" sid="789449877025495" type="TestCharBase">
+                        <condition id="-13" name="Is between angles" sid="789449877025495" type="MeninaBase">
                             <param id="0" name="First angle">315</param>
                             <param id="1" name="Second angle">360</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="7" name="Set mirrored" sid="845542020221372" type="TestChar">
+                        <action id="7" name="Set mirrored" sid="845542020221372" type="Menina">
+                            <param id="0" name="State">1</param>
+                        </action>
+                        <action id="7" name="Set mirrored" sid="874623499359610" type="Saco">
                             <param id="0" name="State">1</param>
                         </action>
                     </actions>
                 </event-block>
                 <event-block sid="714367074989345">
                     <conditions>
-                        <condition id="-13" name="Is between angles" sid="179140277372891" type="TestCharBase">
+                        <condition id="-13" name="Is between angles" sid="179140277372891" type="MeninaBase">
                             <param id="0" name="First angle">90.1</param>
                             <param id="1" name="Second angle">225.01</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="7" name="Set mirrored" sid="728433725987985" type="TestChar">
+                        <action id="7" name="Set mirrored" sid="728433725987985" type="Menina">
                             <param id="0" name="State">0</param>
+                        </action>
+                        <action id="7" name="Set mirrored" sid="456758683425227" type="Saco">
+                            <param id="0" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="270717799276302">
+                    <conditions>
+                        <condition id="-1" name="Every tick" sid="841363415136728" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Set position" sid="288875466069832" type="Saco">
+                            <param id="0" name="X">Menina.ImagePointX(2)</param>
+                            <param id="1" name="Y">Menina.ImagePointY(2)</param>
                         </action>
                     </actions>
                 </event-block>
@@ -107,7 +124,7 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="Pathfinding" id="0" name="Find path" sid="354782937590799" type="TestCharBase">
+                        <action behavior="Pathfinding" id="0" name="Find path" sid="354782937590799" type="MeninaBase">
                             <param id="0" name="X">Mouse.X</param>
                             <param id="1" name="Y">Mouse.Y</param>
                         </action>
@@ -115,18 +132,18 @@
                 </event-block>
                 <event-block sid="970535124682410">
                     <conditions>
-                        <condition behavior="Pathfinding" id="0" name="On path found" sid="625889750389182" type="TestCharBase" />
+                        <condition behavior="Pathfinding" id="0" name="On path found" sid="625889750389182" type="MeninaBase" />
                     </conditions>
                     <actions>
-                        <action behavior="Pathfinding" id="1" name="Move along path" sid="491892029649017" type="TestCharBase" />
+                        <action behavior="Pathfinding" id="1" name="Move along path" sid="491892029649017" type="MeninaBase" />
                     </actions>
                 </event-block>
                 <event-block sid="766794643175990">
                     <conditions>
-                        <condition behavior="8Direction" id="0" name="Is moving" sid="491808161086644" type="TestCharBase" />
+                        <condition behavior="8Direction" id="0" name="Is moving" sid="491808161086644" type="MeninaBase" />
                     </conditions>
                     <actions>
-                        <action behavior="Pathfinding" id="2" name="Stop" sid="404154547645442" type="TestCharBase" />
+                        <action behavior="Pathfinding" id="2" name="Stop" sid="404154547645442" type="MeninaBase" />
                     </actions>
                 </event-block>
                 <event-block sid="236670290158454">
@@ -136,7 +153,7 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="8Direction" id="7" name="Simulate control" sid="925157622317826" type="TestCharBase">
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="925157622317826" type="MeninaBase">
                             <param id="0" name="Control">2</param>
                         </action>
                     </actions>
@@ -148,7 +165,7 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="8Direction" id="7" name="Simulate control" sid="516141512261898" type="TestCharBase">
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="516141512261898" type="MeninaBase">
                             <param id="0" name="Control">0</param>
                         </action>
                     </actions>
@@ -160,7 +177,7 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="8Direction" id="7" name="Simulate control" sid="688276865935355" type="TestCharBase">
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="688276865935355" type="MeninaBase">
                             <param id="0" name="Control">3</param>
                         </action>
                     </actions>
@@ -172,7 +189,7 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="8Direction" id="7" name="Simulate control" sid="119135520621915" type="TestCharBase">
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="119135520621915" type="MeninaBase">
                             <param id="0" name="Control">1</param>
                         </action>
                     </actions>
