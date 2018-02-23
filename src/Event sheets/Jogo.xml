@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Jogo</name>
+    <events>
+        <event-group description="" sid="355753951874468" title="Movimentação do cenário">
+            <sub-events>
+                <event-block sid="640685351953523">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="491708197456325" type="System">
+                            <param id="0" name="First value">timescale</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="541669110716154">
+                            <conditions>
+                                <condition id="-1" name="Compare X" sid="230008469075635" type="MeninaBase">
+                                    <param id="0" name="Comparison">2</param>
+                                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Personagem&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-1" name="Set X" sid="551996743426045" type="MeninaBase">
+                                    <param id="0" name="X">ViewportLeft(&quot;Personagem&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="943772023098125">
+                            <conditions>
+                                <condition id="-1" name="Compare X" sid="197427696722246" type="MeninaBase">
+                                    <param id="0" name="Comparison">4</param>
+                                    <param id="1" name="X co-ordinate">ViewportRight(&quot;Personagem&quot;) - (MeninaBase.width/2)</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-1" name="Set X" sid="809103882736360" type="MeninaBase">
+                                    <param id="0" name="X">ViewportRight(&quot;Personagem&quot;) - (MeninaBase.width/2)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="816909897779624">
+                            <conditions>
+                                <condition id="-1" name="Every tick" sid="618648207995044" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="-5" name="Scroll to X" sid="172580347016219" type="System">
+                                    <param id="0" name="X">lerp(scrollx, scrollx + 1, VELOCIDADE_SCROLL)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="662192027129145" title="Gerador de Lixo">
+            <sub-events>
+                <variable constant="1" name="MARGEM" sid="851603293655309" static="0" type="number">30</variable>
+                <variable constant="1" name="MARGEM_ESQUERDA" sid="658043531173074" static="0" type="number">200</variable>
+                <variable constant="0" name="QuantidadeMaximaLixo" sid="135134021117542" static="0" type="number">100</variable>
+                <comment>Ao iniciar o layout, gera uma determinada quantidade de lixo (parametrizada) em locais aleatórios (com margens parametrizadas).</comment>
+                <event-block sid="320897492474630">
+                    <conditions>
+                        <condition id="-2" name="On start of layout" sid="946940195190180" type="System" />
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <variable constant="0" name="ContadorLixo" sid="810943872606147" static="0" type="number">0</variable>
+                        <event-block sid="381313223451177">
+                            <conditions>
+                                <condition disabled="1" id="-12" name="Repeat" sid="876026124110996" type="System">
+                                    <param id="0" name="Count">1000</param>
+                                </condition>
+                                <condition id="-23" name="While" sid="930163328131953" type="System" />
+                                <condition id="-8" name="Compare two values" sid="544680190215421" type="System">
+                                    <param id="0" name="First value">ContadorLixo</param>
+                                    <param id="1" name="Comparison">2</param>
+                                    <param id="2" name="Second value">QuantidadeMaximaLixo</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Set position" sid="281876017992200" type="GeradorLixo">
+                                    <param id="0" name="X">random(MARGEM_ESQUERDA + MARGEM, LayoutWidth - MARGEM)</param>
+                                    <param id="1" name="Y">random(MARGEM, LayoutHeight - MARGEM)</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="374514430129759">
+                                    <conditions>
+                                        <condition id="1" inverted="1" name="Is overlapping another object" sid="537278442483730" type="GeradorLixo">
+                                            <param id="0" name="Object">FLixo</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-10" name="Add to" sid="582876085510713" type="System">
+                                            <param id="0" name="Variable">ContadorLixo</param>
+                                            <param id="1" name="Value">1</param>
+                                        </action>
+                                        <action id="0" name="Spawn another object" sid="872579354740399" type="GeradorLixo">
+                                            <param id="0" name="Object">FLixo</param>
+                                            <param id="1" name="Layer">LayerIndex(&quot;Objetos&quot;)</param>
+                                            <param id="2" name="Image point">0</param>
+                                        </action>
+                                        <action id="5" name="Set frame" sid="909667343951685" type="FLixo">
+                                            <param id="0" name="Frame number">random(0, FLixo.AnimationFrameCount)</param>
+                                        </action>
+                                    </actions>
+                                    <sub-events>
+                                        <comment>Para cada repetição par, o lixo gerado é exibido de forma espelhada, para dar mais variedade.</comment>
+                                        <event-block sid="768617736058575">
+                                            <conditions>
+                                                <condition id="-8" name="Compare two values" sid="546987166161975" type="System">
+                                                    <param id="0" name="First value">ContadorLixo % 2</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Second value">0</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="7" name="Set mirrored" sid="936606961361478" type="FLixo">
+                                                    <param id="0" name="State">0</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="878439892615605" title="Pausa">
+            <sub-events>
+                <event-block sid="108166668500474">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="101351487701598" type="Keyboard">
+                            <param id="0" name="Key">32</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="200963305762267">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="925435262957060" type="System">
+                                    <param id="0" name="First value">timescale</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-13" name="Set time scale" sid="743964182002629" type="System">
+                                    <param id="0" name="Time scale">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="716165361748651">
+                            <conditions>
+                                <condition id="-22" name="Else" sid="339368738874566" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="-13" name="Set time scale" sid="671224150345245" type="System">
+                                    <param id="0" name="Time scale">1.0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="402437730553432" title="Includes">
+            <sub-events>
+                <include>UI</include>
+                <include>FObjetos</include>
+                <include>Menina</include>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>FObjetos</name>
+    <events>
+        <event-group description="" sid="739074771140618" title="FObjetos: Posicionamento">
+            <sub-events>
+                <event-block sid="424421745475477">
+                    <conditions>
+                        <condition id="-24" name="For Each (ordered)" sid="696800531904294" type="System">
+                            <param id="0" name="Object">FObjetos</param>
+                            <param id="1" name="Expression">FObjetos.Y</param>
+                            <param id="2" name="Order">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-24" name="Move to top" sid="233372897381343" type="FObjetos" />
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>

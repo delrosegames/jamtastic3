@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2eventsheet>
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
-    <name>Event_Personagem</name>
+    <name>Menina</name>
     <events>
         <variable constant="0" name="PersonagemVelocidade" sid="309284899548003" static="0" type="number">800</variable>
         <variable constant="0" name="PersonagemAceleracao" sid="960434294198752" static="0" type="number">3000</variable>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2eventsheet>
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
-    <name>Event_UI</name>
+    <name>UI</name>
     <events>
         <comment>Se o layout de UI ainda não foi criado, esse é criado (redireciona para o layout).&#x0D;&#x0A;Também armazena o nome do layout atual, para que a UI possa redirecionar para este de volta.</comment>
         <event-block sid="340017456367205">
