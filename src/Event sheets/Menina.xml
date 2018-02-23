@@ -122,6 +122,9 @@
                             <param id="0" name="Mouse button">0</param>
                             <param id="1" name="Click type">0</param>
                         </condition>
+                        <condition id="7" name="Cursor is over object" sid="562680091397464" type="Mouse">
+                            <param id="0" name="Object">TilemapChao</param>
+                        </condition>
                     </conditions>
                     <actions>
                         <action behavior="Pathfinding" id="0" name="Find path" sid="354782937590799" type="MeninaBase">

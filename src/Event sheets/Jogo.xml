@@ -5,6 +5,7 @@
     <events>
         <event-group description="" sid="355753951874468" title="Movimentação do cenário">
             <sub-events>
+                <variable constant="1" name="LIMITE_TOPO" sid="498349647120795" static="0" type="number">200</variable>
                 <event-block sid="640685351953523">
                     <conditions>
                         <condition id="-8" name="Compare two values" sid="491708197456325" type="System">
@@ -19,12 +20,12 @@
                             <conditions>
                                 <condition id="-1" name="Compare X" sid="230008469075635" type="MeninaBase">
                                     <param id="0" name="Comparison">2</param>
-                                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Personagem&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
+                                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Objetos&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
                                 </condition>
                             </conditions>
                             <actions>
                                 <action id="-1" name="Set X" sid="551996743426045" type="MeninaBase">
-                                    <param id="0" name="X">ViewportLeft(&quot;Personagem&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
+                                    <param id="0" name="X">ViewportLeft(&quot;Objetos&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -32,12 +33,12 @@
                             <conditions>
                                 <condition id="-1" name="Compare X" sid="197427696722246" type="MeninaBase">
                                     <param id="0" name="Comparison">4</param>
-                                    <param id="1" name="X co-ordinate">ViewportRight(&quot;Personagem&quot;) - (MeninaBase.width/2)</param>
+                                    <param id="1" name="X co-ordinate">ViewportRight(&quot;Objetos&quot;) - (MeninaBase.width/2)</param>
                                 </condition>
                             </conditions>
                             <actions>
                                 <action id="-1" name="Set X" sid="809103882736360" type="MeninaBase">
-                                    <param id="0" name="X">ViewportRight(&quot;Personagem&quot;) - (MeninaBase.width/2)</param>
+                                    <param id="0" name="X">ViewportRight(&quot;Objetos&quot;) - (MeninaBase.width/2)</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -59,7 +60,9 @@
             <sub-events>
                 <variable constant="1" name="MARGEM" sid="851603293655309" static="0" type="number">30</variable>
                 <variable constant="1" name="MARGEM_ESQUERDA" sid="658043531173074" static="0" type="number">200</variable>
-                <variable constant="0" name="QuantidadeMaximaLixo" sid="135134021117542" static="0" type="number">100</variable>
+                <variable constant="1" name="MARGEM_TOPO" sid="575265220421594" static="0" type="number">300</variable>
+                <variable constant="1" name="MARGEM_BAIXO" sid="776003160223383" static="0" type="number">84</variable>
+                <variable constant="0" name="QuantidadeMaximaLixo" sid="135134021117542" static="0" type="number">50</variable>
                 <comment>Ao iniciar o layout, gera uma determinada quantidade de lixo (parametrizada) em locais aleatórios (com margens parametrizadas).</comment>
                 <event-block sid="320897492474630">
                     <conditions>
@@ -83,7 +86,7 @@
                             <actions>
                                 <action id="-3" name="Set position" sid="281876017992200" type="GeradorLixo">
                                     <param id="0" name="X">random(MARGEM_ESQUERDA + MARGEM, LayoutWidth - MARGEM)</param>
-                                    <param id="1" name="Y">random(MARGEM, LayoutHeight - MARGEM)</param>
+                                    <param id="1" name="Y">random(MARGEM_TOPO + MARGEM, LayoutHeight - MARGEM - MARGEM_BAIXO)</param>
                                 </action>
                             </actions>
                             <sub-events>

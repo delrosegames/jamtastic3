@@ -108,7 +108,7 @@
                         <opacity>1</opacity>
                     </world>
                 </instance>
-                <instance type="Tilemap_Floor" uid="7">
+                <instance type="TilemapChao" uid="7">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <tile-width>16</tile-width>
