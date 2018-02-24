@@ -486,11 +486,11 @@
                         <behavior id="solid" />
                     </behavior-type>
                 </behaviors>
-                <texture original-source="D:\Dev\Assets\Jamtastic3\Arquibancada - Placa.png" />
+                <texture original-source="D:\Dev\Assets\Jamtastic3\Cenário\Proporção 2\Arquibancada - Placa.png" />
             </object-type>
             <object-type name="ArquibancadaPessoas" sid="557959753243423">
                 <plugin id="TiledBg" />
-                <texture original-source="D:\Dev\Assets\Jamtastic3\Arquibancada - Pessoas.png" />
+                <texture original-source="D:\Dev\Assets\Jamtastic3\Cenário\Proporção 2\Arquibancada - Pessoas.png" />
             </object-type>
         </object-folder>
     </object-folder>
