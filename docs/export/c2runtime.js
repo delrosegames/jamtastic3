@@ -15139,6 +15139,23 @@ cr.system_object.prototype.loadFromJSON = function (o)
 	};
 })();
 cr.shaders = {};
+cr.shaders["setcolor"] = {src: ["varying mediump vec2 vTex;",
+"uniform lowp sampler2D samplerFront;",
+"uniform lowp float red;",
+"uniform lowp float green;",
+"uniform lowp float blue;",
+"void main(void)",
+"{",
+"lowp float a = texture2D(samplerFront, vTex).a;",
+"gl_FragColor = vec4(red * a, green * a, blue * a, a);",
+"}"
+].join("\n"),
+	extendBoxHorizontal: 0,
+	extendBoxVertical: 0,
+	crossSampling: false,
+	preservesOpaqueness: true,
+	animated: false,
+	parameters: [["red", 0, 1], ["green", 0, 1], ["blue", 0, 1]] }
 ;
 ;
 cr.plugins_.Keyboard = function(runtime)
@@ -21389,6 +21406,7 @@ cr.getObjectRefTable = function () { return [
 	cr.behaviors.Pathfinding.prototype.acts.SetMaxSpeed,
 	cr.behaviors.Pathfinding.prototype.acts.SetAcc,
 	cr.behaviors.Pathfinding.prototype.acts.SetDec,
+	cr.plugins_.Sprite.prototype.acts.SetScale,
 	cr.system_object.prototype.cnds.IsGroupActive,
 	cr.behaviors.EightDir.prototype.cnds.IsMoving,
 	cr.behaviors.Pathfinding.prototype.cnds.IsMoving,
@@ -21398,6 +21416,9 @@ cr.getObjectRefTable = function () { return [
 	cr.system_object.prototype.cnds.EveryTick,
 	cr.plugins_.Sprite.prototype.exps.ImagePointX,
 	cr.plugins_.Sprite.prototype.exps.ImagePointY,
+	cr.system_object.prototype.cnds.Compare,
+	cr.plugins_.Sprite.prototype.acts.SetEffectEnabled,
+	cr.system_object.prototype.cnds.Else,
 	cr.plugins_.Mouse.prototype.cnds.OnClick,
 	cr.plugins_.Mouse.prototype.cnds.IsOverObject,
 	cr.behaviors.Pathfinding.prototype.acts.FindPath,
@@ -21411,16 +21432,15 @@ cr.getObjectRefTable = function () { return [
 	cr.plugins_.Sprite.prototype.cnds.OnCollision,
 	cr.system_object.prototype.acts.AddVar,
 	cr.plugins_.Sprite.prototype.acts.Destroy,
+	cr.system_object.prototype.acts.SetVar,
 	cr.system_object.prototype.cnds.ForEachOrdered,
 	cr.plugins_.Sprite.prototype.acts.MoveToTop,
-	cr.system_object.prototype.acts.SetVar,
 	cr.system_object.prototype.acts.GoToLayoutByName,
 	cr.system_object.prototype.cnds.CompareVar,
 	cr.system_object.prototype.exps.layoutname,
 	cr.system_object.prototype.acts.GoToLayout,
 	cr.plugins_.Text.prototype.acts.SetText,
 	cr.system_object.prototype.exps.zeropad,
-	cr.system_object.prototype.cnds.Compare,
 	cr.system_object.prototype.exps.timescale,
 	cr.plugins_.Sprite.prototype.cnds.CompareX,
 	cr.system_object.prototype.exps.viewportleft,
@@ -21440,6 +21460,5 @@ cr.getObjectRefTable = function () { return [
 	cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
 	cr.plugins_.Sprite.prototype.exps.AnimationFrameCount,
 	cr.plugins_.Keyboard.prototype.cnds.OnKey,
-	cr.system_object.prototype.acts.SetTimescale,
-	cr.system_object.prototype.cnds.Else
+	cr.system_object.prototype.acts.SetTimescale
 ];};

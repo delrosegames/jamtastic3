@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1519431816,
+	"version": 1519444281,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -12,6 +12,7 @@
 		"images/saco-sheet0.png",
 		"images/fundoui-sheet0.png",
 		"images/carroalegorico-sheet0.png",
+		"images/lixeira-sheet0.png",
 		"images/geradorlixo-sheet0.png",
 		"images/lixolataamassada-sheet0.png",
 		"images/lixolataamassada-sheet1.png",
