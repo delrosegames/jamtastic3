@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1519589713,
+	"version": 1519598092,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -32,6 +32,11 @@
 		"images/tilemap_obj_blocking.png",
 		"images/arquibancadaplaca.png",
 		"images/arquibancadapessoas.png",
+		"images/menuinicialfundo-sheet0.png",
+		"images/sprite-sheet0.png",
+		"images/botaoiniciar-sheet0.png",
+		"images/botaosair-sheet0.png",
+		"images/menuinicialcursor-sheet0.png",
 		"icon-16.png",
 		"icon-32.png",
 		"icon-114.png",
