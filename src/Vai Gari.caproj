@@ -205,7 +205,7 @@
                 </behaviors>
                 <animation-folder>
                     <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="598432421695039" speed="5">
-                        <frame duration="1" hotspotX="0" hotspotY="0" />
+                        <frame duration="1" hotspotX="0" hotspotY="0" original-source="D:\Dev\Assets\Jamtastic3\Carro\Original\Carro Carnaval.png" />
                     </animation>
                 </animation-folder>
             </object-type>
