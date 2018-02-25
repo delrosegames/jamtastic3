@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1519598092,
+	"version": 1519599724,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -9,6 +9,7 @@
 		"images/meninabase-sheet0.png",
 		"images/saco-sheet0.png",
 		"images/fundoui-sheet0.png",
+		"images/fundoescuro.png",
 		"images/carroalegorico-sheet0.png",
 		"images/lixeira-sheet0.png",
 		"images/lixeira-sheet1.png",
