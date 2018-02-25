@@ -20,9 +20,11 @@
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
+        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
         <behavior author="Scirra" id="Pathfinding" version="1">Pathfinding</behavior>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
+        <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
         <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
         <behavior author="Scirra" id="solid" version="1">Solid</behavior>
     </used-behaviors>
@@ -194,6 +196,9 @@
                     </animation>
                 </animation-folder>
             </object-type>
+            <object-type name="Controles" sid="241921816350340">
+                <plugin id="Text" />
+            </object-type>
         </object-folder>
         <object-folder name="Objetos">
             <object-type name="CarroAlegorico" sid="999222484812396">
@@ -202,10 +207,36 @@
                     <behavior-type name="Anchor" sid="403266070618405">
                         <behavior id="Anchor" />
                     </behavior-type>
+                    <behavior-type name="SineVeritical" sid="490344463353066">
+                        <behavior id="Sin" />
+                    </behavior-type>
+                    <behavior-type name="SineHorizontal" sid="753474302971505">
+                        <behavior id="Sin" />
+                    </behavior-type>
+                    <behavior-type name="Solid" sid="290068562702418">
+                        <behavior id="solid" />
+                    </behavior-type>
+                    <behavior-type name="Pin" sid="232181235773055">
+                        <behavior id="Pin" />
+                    </behavior-type>
+                    <behavior-type name="Bullet" sid="164574450751829">
+                        <behavior id="Bullet" />
+                    </behavior-type>
                 </behaviors>
                 <animation-folder>
                     <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="598432421695039" speed="5">
-                        <frame duration="1" hotspotX="0" hotspotY="0" original-source="D:\Dev\Assets\Jamtastic3\Carro\Original\Carro Carnaval.png" />
+                        <frame duration="1" hotspotX="0" hotspotY="0" original-source="D:\Dev\Assets\Jamtastic3\Carro\Redimensionado\Carro Carnaval.png">
+                            <collision-poly>
+                                <point x="0.0793037" y="0.101485" />
+                                <point x="0.499033" y="0.0866337" />
+                                <point x="0.84913" y="0.193069" />
+                                <point x="0.996132" y="0.5" />
+                                <point x="0.909091" y="0.883663" />
+                                <point x="0.499033" y="1" />
+                                <point x="0.00193424" y="0.997525" />
+                                <point x="0.00193424" y="0.5" />
+                            </collision-poly>
+                        </frame>
                     </animation>
                 </animation-folder>
             </object-type>
@@ -312,15 +343,7 @@
             <object-type name="LixoGarrafaPlastica" sid="378557696940106">
                 <plugin id="Sprite" />
                 <animation-folder>
-                    <animation framecount="6" loop="0" name="Default" pingpong="0" repeatcount="0" repeatto="0" sid="572567812286101" speed="0">
-                        <frame duration="1" hotspotX="0.4" hotspotY="0.821429" original-source="D:\Dev\Assets\Jamtastic3\Lixos\Redimensionado - ajustado\06.png">
-                            <collision-poly>
-                                <point x="0.0357143" y="0.666667" />
-                                <point x="0.803571" y="0.666667" />
-                                <point x="0.803571" y="0.909091" />
-                                <point x="0.0357143" y="0.909091" />
-                            </collision-poly>
-                        </frame>
+                    <animation framecount="5" loop="0" name="Default" pingpong="0" repeatcount="0" repeatto="0" sid="572567812286101" speed="0">
                         <frame duration="1" hotspotX="0.5" hotspotY="0.85" original-source="D:\Dev\Assets\Jamtastic3\Lixos\Redimensionado\6.png">
                             <collision-poly>
                                 <point x="0.03125" y="0.75" />

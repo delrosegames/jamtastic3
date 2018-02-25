@@ -7,5 +7,6 @@
         <variable constant="1" name="VELOCIDADE_SCROLL" sid="588758563744647" static="0" type="number">0.7</variable>
         <variable comment="Nome do layout para o qual deve ser redirecionado após a criação da UI" constant="0" name="LayoutRedirecionar" sid="300653454939318" static="0" type="text"></variable>
         <variable comment="Se for 1 quer dizer que já criou os objetos da UI" constant="0" name="CriouUI" sid="379778229072042" static="0" type="number">0</variable>
+        <variable constant="0" name="Acabou" sid="523161580598907" static="0" type="number">0</variable>
     </events>
 </c2eventsheet>

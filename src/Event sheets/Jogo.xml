@@ -5,7 +5,6 @@
     <events>
         <event-group description="" sid="355753951874468" title="Movimentação do cenário">
             <sub-events>
-                <variable constant="1" name="LIMITE_ESQUERDA" sid="498349647120795" static="0" type="number">200</variable>
                 <event-block sid="640685351953523">
                     <conditions>
                         <condition id="-8" name="Compare two values" sid="491708197456325" type="System">
@@ -16,29 +15,16 @@
                     </conditions>
                     <actions />
                     <sub-events>
-                        <event-block disabled="1" sid="541669110716154">
-                            <conditions>
-                                <condition id="-1" name="Compare X" sid="230008469075635" type="MeninaBase">
-                                    <param id="0" name="Comparison">2</param>
-                                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Objetos&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-1" name="Set X" sid="551996743426045" type="MeninaBase">
-                                    <param id="0" name="X">ViewportLeft(&quot;Objetos&quot;) + CarroAlegorico.Width + (MeninaBase.width/2)</param>
-                                </action>
-                            </actions>
-                        </event-block>
                         <event-block sid="272136559850656">
                             <conditions>
-                                <condition id="-1" name="Compare X" sid="267382713131144" type="MeninaBase">
+                                <condition id="-1" name="Compare X" sid="983828207045040" type="MeninaBase">
                                     <param id="0" name="Comparison">2</param>
-                                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Objetos&quot;) + LIMITE_ESQUERDA + (MeninaBase.width/2)</param>
+                                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Objetos&quot;) + (MeninaBase.width/2)</param>
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-1" name="Set X" sid="710144957938640" type="MeninaBase">
-                                    <param id="0" name="X">ViewportLeft(&quot;Objetos&quot;) + LIMITE_ESQUERDA + (MeninaBase.width/2)</param>
+                                <action id="-1" name="Set X" sid="199314054470056" type="MeninaBase">
+                                    <param id="0" name="X">ViewportLeft(&quot;Objetos&quot;) + (MeninaBase.width/2)</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -65,6 +51,29 @@
                                 </action>
                             </actions>
                         </event-block>
+                        <event-block sid="416115941917688">
+                            <conditions>
+                                <condition id="-1" name="Compare X" sid="209189631652624" type="CarroAlegorico">
+                                    <param id="0" name="Comparison">5</param>
+                                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Carro&quot;)</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="Bullet" id="5" name="Set enabled" sid="168326656370841" type="CarroAlegorico">
+                                    <param id="0" name="State">0</param>
+                                </action>
+                                <action behavior="SineHorizontal" id="0" name="Set active" sid="122641056801861" type="CarroAlegorico">
+                                    <param id="0" name="State">0</param>
+                                </action>
+                                <action behavior="SineVeritical" id="0" name="Set active" sid="322350207378220" type="CarroAlegorico">
+                                    <param id="0" name="State">0</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="170316347934839" type="System">
+                                    <param id="0" name="Variable">Acabou</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
                     </sub-events>
                 </event-block>
             </sub-events>
@@ -72,7 +81,7 @@
         <event-group description="" sid="662192027129145" title="Gerador de Lixo">
             <sub-events>
                 <variable constant="1" name="MARGEM" sid="851603293655309" static="0" type="number">30</variable>
-                <variable constant="1" name="MARGEM_ESQUERDA" sid="658043531173074" static="0" type="number">500</variable>
+                <variable constant="1" name="MARGEM_ESQUERDA" sid="658043531173074" static="0" type="number">200</variable>
                 <variable constant="1" name="MARGEM_TOPO" sid="575265220421594" static="0" type="number">162</variable>
                 <variable constant="1" name="MARGEM_BAIXO" sid="776003160223383" static="0" type="number">84</variable>
                 <variable constant="0" name="QuantidadeMaximaLixo" sid="135134021117542" static="0" type="number">100</variable>
@@ -106,7 +115,7 @@
                                 <event-block sid="374514430129759">
                                     <conditions>
                                         <condition id="1" inverted="1" name="Is overlapping another object" sid="537278442483730" type="GeradorLixo">
-                                            <param id="0" name="Object">FLixo</param>
+                                            <param id="0" name="Object">FObjetos</param>
                                         </condition>
                                     </conditions>
                                     <actions>
