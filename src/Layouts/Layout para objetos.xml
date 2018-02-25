@@ -189,15 +189,6 @@
                     <behavior-instances>
                         <behavior-instance type="Pin" />
                     </behavior-instances>
-                    <effect-instances>
-                        <effect-instance type="SetColor">
-                            <parameters>
-                                <blue>0</blue>
-                                <green>0</green>
-                                <red>0.5</red>
-                            </parameters>
-                        </effect-instance>
-                    </effect-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
@@ -205,10 +196,10 @@
                         <y>100</y>
                         <z>0</z>
                         <width>30</width>
-                        <height>30</height>
+                        <height>35</height>
                         <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.06666667</hotspotY>
+                        <hotspotX>0.433333337</hotspotX>
+                        <hotspotY>0.200000003</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>

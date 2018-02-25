@@ -183,9 +183,9 @@
                                         </condition>
                                     </conditions>
                                     <actions>
-                                        <action id="-27" name="Set effect enabled" sid="768505252391748" type="Saco">
-                                            <param id="0" name="Mode">0</param>
-                                            <param id="1" name="Effect">&quot;SetColor&quot;</param>
+                                        <action id="4" name="Set animation" sid="886354617923479" type="Saco">
+                                            <param id="0" name="Animation">&quot;Default&quot;</param>
+                                            <param id="1" name="From">1</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -194,9 +194,9 @@
                                         <condition id="-22" name="Else" sid="468581113055806" type="System" />
                                     </conditions>
                                     <actions>
-                                        <action id="-27" name="Set effect enabled" sid="803197907251432" type="Saco">
-                                            <param id="0" name="Mode">1</param>
-                                            <param id="1" name="Effect">&quot;SetColor&quot;</param>
+                                        <action id="4" name="Set animation" sid="395469086331784" type="Saco">
+                                            <param id="0" name="Animation">&quot;Cheio&quot;</param>
+                                            <param id="1" name="From">1</param>
                                         </action>
                                     </actions>
                                 </event-block>
