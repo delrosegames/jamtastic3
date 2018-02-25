@@ -61,7 +61,7 @@
                         <event-block sid="768292590663900">
                             <conditions>
                                 <condition id="2" name="Key is down" sid="738103694736181" type="Keyboard">
-                                    <param id="0" name="Key">17</param>
+                                    <param id="0" name="Key">32</param>
                                 </condition>
                             </conditions>
                             <actions>
@@ -84,7 +84,7 @@
                         <event-block sid="239352795532295">
                             <conditions>
                                 <condition id="2" inverted="1" name="Key is down" sid="505248549302553" type="Keyboard">
-                                    <param id="0" name="Key">17</param>
+                                    <param id="0" name="Key">32</param>
                                 </condition>
                             </conditions>
                             <actions>

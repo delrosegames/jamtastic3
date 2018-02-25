@@ -12,6 +12,11 @@
                             <param id="1" name="Comparison">4</param>
                             <param id="2" name="Second value">0</param>
                         </condition>
+                        <condition id="-14" name="Compare variable" sid="477109904656835" type="System">
+                            <param id="0" name="Variable">Acabou</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
                     </conditions>
                     <actions />
                     <sub-events>
@@ -53,7 +58,11 @@
                         </event-block>
                         <event-block sid="416115941917688">
                             <conditions>
-                                <condition id="-1" name="Compare X" sid="209189631652624" type="CarroAlegorico">
+                                <condition disabled="1" id="-1" name="Compare X" sid="209189631652624" type="CarroAlegorico">
+                                    <param id="0" name="Comparison">5</param>
+                                    <param id="1" name="X co-ordinate">ViewportLeft(&quot;Carro&quot;) -450</param>
+                                </condition>
+                                <condition id="-1" name="Compare X" sid="814736915419726" type="CarroAlegorico">
                                     <param id="0" name="Comparison">5</param>
                                     <param id="1" name="X co-ordinate">ViewportLeft(&quot;Carro&quot;)</param>
                                 </condition>
@@ -71,6 +80,25 @@
                                 <action id="-9" name="Set value" sid="170316347934839" type="System">
                                     <param id="0" name="Variable">Acabou</param>
                                     <param id="1" name="Value">1</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="735316994095682" type="FundoEscuro">
+                                    <param id="0" name="Visibility">1</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="797571053948726" type="FundoEscuro">
+                                    <param id="0" name="Width">1280</param>
+                                    <param id="1" name="Height">720</param>
+                                </action>
+                                <action id="0" name="Set text" sid="990827837331663" type="TextoAcabou">
+                                    <param id="0" name="Text">&quot;Você fez &quot; &amp; Pontos &amp; &quot; pontos.&quot;</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="785277475244324" type="TextoAcabou">
+                                    <param id="0" name="Visibility">1</param>
+                                </action>
+                                <action id="-16" name="Wait" sid="775369946325108" type="System">
+                                    <param id="0" name="Seconds">5</param>
+                                </action>
+                                <action id="-2" name="Go to layout" sid="542697596562863" type="System">
+                                    <param id="0" name="Layout">MenuInicial</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -90,7 +118,16 @@
                     <conditions>
                         <condition id="-2" name="On start of layout" sid="946940195190180" type="System" />
                     </conditions>
-                    <actions />
+                    <actions>
+                        <action id="-9" name="Set value" sid="190572671755655" type="System">
+                            <param id="0" name="Variable">Acabou</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="270339606322790" type="System">
+                            <param id="0" name="Variable">Pontos</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
                     <sub-events>
                         <variable constant="0" name="ContadorLixo" sid="810943872606147" static="0" type="number">0</variable>
                         <event-block sid="381313223451177">
@@ -161,8 +198,9 @@
                 <event-block sid="108166668500474">
                     <conditions>
                         <condition id="0" name="On key pressed" sid="101351487701598" type="Keyboard">
-                            <param id="0" name="Key">32</param>
+                            <param id="0" name="Key">27</param>
                         </condition>
+                        <condition id="-9" inverted="1" name="Is visible" sid="818863831372163" type="FundoEscuro" />
                     </conditions>
                     <actions />
                     <sub-events>
@@ -191,6 +229,23 @@
                             </actions>
                         </event-block>
                     </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="307304368730605" title="Acabou">
+            <sub-events>
+                <event-block sid="578810460754487">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="327703451783197" type="Keyboard">
+                            <param id="0" name="Key">27</param>
+                        </condition>
+                        <condition id="-9" name="Is visible" sid="520859325020386" type="FundoEscuro" />
+                    </conditions>
+                    <actions>
+                        <action id="-2" name="Go to layout" sid="360916648268751" type="System">
+                            <param id="0" name="Layout">MenuInicial</param>
+                        </action>
+                    </actions>
                 </event-block>
             </sub-events>
         </event-group>

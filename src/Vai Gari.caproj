@@ -219,6 +219,13 @@
             <object-type name="Controles" sid="241921816350340">
                 <plugin id="Text" />
             </object-type>
+            <object-type name="FundoEscuro" sid="189841000987094">
+                <plugin id="TiledBg" />
+                <texture />
+            </object-type>
+            <object-type name="TextoAcabou" sid="178466919455845">
+                <plugin id="Text" />
+            </object-type>
         </object-folder>
         <object-folder name="Objetos">
             <object-type name="CarroAlegorico" sid="999222484812396">
