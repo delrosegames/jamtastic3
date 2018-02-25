@@ -94,6 +94,28 @@
                             <image-point name="Mao2" x="0.217391" y="0.584615" />
                         </frame>
                     </animation>
+                    <animation framecount="2" loop="1" name="Limpando" pingpong="0" repeatcount="1" repeatto="0" sid="367737862342358" speed="7">
+                        <frame duration="1" hotspotX="0.543478" hotspotY="0.923077" original-source="D:\Dev\Assets\Jamtastic3\Menina\Redimensionado\limpando_01.png">
+                            <image-point name="Mao1" x="0.771739" y="0.6" />
+                            <image-point name="Mao2" x="0.184783" y="0.738462" />
+                            <collision-poly>
+                                <point x="0.217391" y="0.769231" />
+                                <point x="1" y="0.769231" />
+                                <point x="1" y="1" />
+                                <point x="0.217391" y="1" />
+                            </collision-poly>
+                        </frame>
+                        <frame duration="1" hotspotX="0.543478" hotspotY="0.923077" original-source="D:\Dev\Assets\Jamtastic3\Menina\Redimensionado\limpando_02.png">
+                            <image-point name="Mao1" x="0.717391" y="0.653846" />
+                            <image-point name="Mao2" x="0.184783" y="0.738462" />
+                            <collision-poly>
+                                <point x="0.217391" y="0.769231" />
+                                <point x="1" y="0.769231" />
+                                <point x="1" y="1" />
+                                <point x="0.217391" y="1" />
+                            </collision-poly>
+                        </frame>
+                    </animation>
                 </animation-folder>
             </object-type>
             <object-type name="MeninaBase" sid="120229473089812">
@@ -196,14 +218,19 @@
                 </behaviors>
                 <animation-folder>
                     <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="103701727175552" speed="5">
-                        <frame duration="1" hotspotX="0.5" hotspotY="0.906667">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.955556" original-source="D:\Dev\Assets\Jamtastic3\Lixeira\Redimensionado\lixeira_01.png">
                             <collision-poly>
-                                <point x="0.190476" y="0.822581" />
-                                <point x="0.833333" y="0.822581" />
-                                <point x="0.809524" y="0.983871" />
-                                <point x="0.214286" y="0.983871" />
+                                <point x="0" y="0.918367" />
+                                <point x="1" y="0.918367" />
+                                <point x="1" y="1" />
+                                <point x="0" y="1" />
                             </collision-poly>
                         </frame>
+                    </animation>
+                    <animation framecount="3" loop="0" name="AbrindoFechando" pingpong="1" repeatcount="1" repeatto="0" sid="587506648600872" speed="8">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.955556" original-source="D:\Dev\Assets\Jamtastic3\Lixeira\Redimensionado\lixeira_01.png" />
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.955556" original-source="D:\Dev\Assets\Jamtastic3\Lixeira\Redimensionado\lixeira_02.png" />
+                        <frame duration="3" hotspotX="0.5" hotspotY="0.955556" original-source="D:\Dev\Assets\Jamtastic3\Lixeira\Redimensionado\lixeira_03.png" />
                     </animation>
                 </animation-folder>
             </object-type>

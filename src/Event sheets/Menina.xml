@@ -9,6 +9,7 @@
         <variable constant="0" name="TamanhoSacoInicial" sid="330486613560066" static="0" type="number">0.5</variable>
         <variable constant="0" name="TamanhoSaco" sid="991227187836540" static="0" type="number">0</variable>
         <variable constant="0" name="MultiplicadorReducaoVelocidade" sid="941967718227852" static="0" type="number">5</variable>
+        <variable comment='Se for 1, quer dizer que o jogador está executando a ação de &quot;Limpar&quot;' constant="0" name="Limpando" sid="219473864405883" static="0" type="number">0</variable>
         <event-block sid="190690599571066">
             <conditions>
                 <condition id="-2" name="On start of layout" sid="202697245062605" type="System" />
@@ -47,29 +48,73 @@
         </event-block>
         <event-group description="Controle de animações e forma de visualização dos sprites do personagem" sid="313315331906602" title="Animações">
             <sub-events>
-                <event-block any="1" sid="579241525858957">
+                <event-block sid="768292590663900">
                     <conditions>
-                        <condition behavior="8Direction" id="0" name="Is moving" sid="153830605458690" type="MeninaBase" />
-                        <condition behavior="Pathfinding" id="4" name="Is moving along path" sid="591273756883844" type="MeninaBase" />
+                        <condition id="2" name="Key is down" sid="738103694736181" type="Keyboard">
+                            <param id="0" name="Key">17</param>
+                        </condition>
                     </conditions>
                     <actions>
-                        <action id="4" name="Set animation" sid="350127783920140" type="Menina">
-                            <param id="0" name="Animation">&quot;Andando&quot;</param>
+                        <action id="4" name="Set animation" sid="894568180598064" type="Menina">
+                            <param id="0" name="Animation">&quot;Limpando&quot;</param>
                             <param id="1" name="From">0</param>
+                        </action>
+                        <action behavior="8Direction" id="8" name="Set enabled" sid="478319901936194" type="MeninaBase">
+                            <param id="0" name="State">0</param>
+                        </action>
+                        <action behavior="Pathfinding" id="3" name="Set enabled" sid="720326987332258" type="MeninaBase">
+                            <param id="0" name="Set">0</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="179135609077218" type="System">
+                            <param id="0" name="Variable">Limpando</param>
+                            <param id="1" name="Value">1</param>
                         </action>
                     </actions>
                 </event-block>
-                <event-block sid="723280745067199">
+                <event-block sid="239352795532295">
                     <conditions>
-                        <condition behavior="8Direction" id="0" inverted="1" name="Is moving" sid="771552727388510" type="MeninaBase" />
-                        <condition behavior="Pathfinding" id="4" inverted="1" name="Is moving along path" sid="801982734224388" type="MeninaBase" />
+                        <condition id="2" inverted="1" name="Key is down" sid="505248549302553" type="Keyboard">
+                            <param id="0" name="Key">17</param>
+                        </condition>
                     </conditions>
                     <actions>
-                        <action id="4" name="Set animation" sid="460081623079259" type="Menina">
-                            <param id="0" name="Animation">&quot;Parado&quot;</param>
-                            <param id="1" name="From">1</param>
+                        <action behavior="8Direction" id="8" name="Set enabled" sid="248967689154015" type="MeninaBase">
+                            <param id="0" name="State">1</param>
+                        </action>
+                        <action behavior="Pathfinding" id="3" name="Set enabled" sid="852724371306007" type="MeninaBase">
+                            <param id="0" name="Set">1</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="761112499560063" type="System">
+                            <param id="0" name="Variable">Limpando</param>
+                            <param id="1" name="Value">0</param>
                         </action>
                     </actions>
+                    <sub-events>
+                        <event-block any="1" sid="579241525858957">
+                            <conditions>
+                                <condition behavior="8Direction" id="0" name="Is moving" sid="153830605458690" type="MeninaBase" />
+                                <condition behavior="Pathfinding" id="4" name="Is moving along path" sid="591273756883844" type="MeninaBase" />
+                            </conditions>
+                            <actions>
+                                <action id="4" name="Set animation" sid="350127783920140" type="Menina">
+                                    <param id="0" name="Animation">&quot;Andando&quot;</param>
+                                    <param id="1" name="From">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="723280745067199">
+                            <conditions>
+                                <condition behavior="8Direction" id="0" inverted="1" name="Is moving" sid="771552727388510" type="MeninaBase" />
+                                <condition behavior="Pathfinding" id="4" inverted="1" name="Is moving along path" sid="801982734224388" type="MeninaBase" />
+                            </conditions>
+                            <actions>
+                                <action id="4" name="Set animation" sid="460081623079259" type="Menina">
+                                    <param id="0" name="Animation">&quot;Parado&quot;</param>
+                                    <param id="1" name="From">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block any="1" sid="520342782168065">
                     <conditions>
@@ -234,60 +279,74 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="468952667181042" title="Ações do personagem" />
-        <event-block sid="176625588318440">
-            <conditions>
-                <condition id="0" name="On collision with another object" sid="157372279563495" type="MeninaBase">
-                    <param id="0" name="Object">FLixo</param>
-                </condition>
-                <condition id="-8" name="Compare two values" sid="139695693032579" type="System">
-                    <param id="0" name="First value">TamanhoSacoInicial + ((TamanhoSaco + FLixo.Tamanho) / 100)</param>
-                    <param id="1" name="Comparison">3</param>
-                    <param id="2" name="Second value">1</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action id="-10" name="Add to" sid="900957262952593" type="System">
-                    <param id="0" name="Variable">Pontos</param>
-                    <param id="1" name="Value">FLixo.Pontos</param>
-                </action>
-                <action id="-9" name="Destroy" sid="944514560926327" type="FLixo" />
-                <action id="-10" name="Add to" sid="867891608577121" type="System">
-                    <param id="0" name="Variable">TamanhoSaco</param>
-                    <param id="1" name="Value">FLixo.Tamanho</param>
-                </action>
-                <action id="9" name="Set scale" sid="271719191236179" type="Saco">
-                    <param id="0" name="Scale">TamanhoSacoInicial + (TamanhoSaco / 100)</param>
-                </action>
-                <action behavior="8Direction" id="4" name="Set max speed" sid="402713665436754" type="MeninaBase">
-                    <param id="0" name="Max Speed">PersonagemVelocidade - (TamanhoSaco * MultiplicadorReducaoVelocidade)</param>
-                </action>
-                <action behavior="Pathfinding" id="7" name="Set max speed" sid="365648635723068" type="MeninaBase">
-                    <param id="0" name="Speed">PersonagemVelocidade - (TamanhoSaco * MultiplicadorReducaoVelocidade)</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="177413093193537">
-            <conditions>
-                <condition id="0" name="On collision with another object" sid="332368458112505" type="MeninaBase">
-                    <param id="0" name="Object">Lixeira</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action id="-9" name="Set value" sid="178821555433995" type="System">
-                    <param id="0" name="Variable">TamanhoSaco</param>
-                    <param id="1" name="Value">0</param>
-                </action>
-                <action id="9" name="Set scale" sid="835487780734855" type="Saco">
-                    <param id="0" name="Scale">TamanhoSacoInicial</param>
-                </action>
-                <action behavior="8Direction" id="4" name="Set max speed" sid="348747050357916" type="MeninaBase">
-                    <param id="0" name="Max Speed">PersonagemVelocidade</param>
-                </action>
-                <action behavior="Pathfinding" id="7" name="Set max speed" sid="112010207918320" type="MeninaBase">
-                    <param id="0" name="Speed">PersonagemVelocidade</param>
-                </action>
-            </actions>
-        </event-block>
+        <event-group description="" sid="468952667181042" title="Ações do personagem">
+            <sub-events>
+                <comment>Se estiver executando a ação de &quot;limpar&quot;, possuir capacidade no saco de lixo e estiver colidindo com um lixo, realiza a limpeza desse lixo.</comment>
+                <event-block sid="176625588318440">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="595276201806558" type="System">
+                            <param id="0" name="Variable">Limpando</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                        <condition id="-8" name="Compare two values" sid="139695693032579" type="System">
+                            <param id="0" name="First value">TamanhoSacoInicial + ((TamanhoSaco + FLixo.Tamanho) / 100)</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Second value">1</param>
+                        </condition>
+                        <condition id="1" name="Is overlapping another object" sid="636013465727487" type="Menina">
+                            <param id="0" name="Object">FLixo</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Add to" sid="900957262952593" type="System">
+                            <param id="0" name="Variable">Pontos</param>
+                            <param id="1" name="Value">FLixo.Pontos</param>
+                        </action>
+                        <action id="-9" name="Destroy" sid="944514560926327" type="FLixo" />
+                        <action id="-10" name="Add to" sid="867891608577121" type="System">
+                            <param id="0" name="Variable">TamanhoSaco</param>
+                            <param id="1" name="Value">FLixo.Tamanho</param>
+                        </action>
+                        <action id="9" name="Set scale" sid="271719191236179" type="Saco">
+                            <param id="0" name="Scale">TamanhoSacoInicial + (TamanhoSaco / 100)</param>
+                        </action>
+                        <action behavior="8Direction" id="4" name="Set max speed" sid="402713665436754" type="MeninaBase">
+                            <param id="0" name="Max Speed">PersonagemVelocidade - (TamanhoSaco * MultiplicadorReducaoVelocidade)</param>
+                        </action>
+                        <action behavior="Pathfinding" id="7" name="Set max speed" sid="365648635723068" type="MeninaBase">
+                            <param id="0" name="Speed">PersonagemVelocidade - (TamanhoSaco * MultiplicadorReducaoVelocidade)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>Se o personagem encostar em uma lixeira, esvazia o saco de lixo.</comment>
+                <event-block sid="177413093193537">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="332368458112505" type="MeninaBase">
+                            <param id="0" name="Object">Lixeira</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="178821555433995" type="System">
+                            <param id="0" name="Variable">TamanhoSaco</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="9" name="Set scale" sid="835487780734855" type="Saco">
+                            <param id="0" name="Scale">TamanhoSacoInicial</param>
+                        </action>
+                        <action behavior="8Direction" id="4" name="Set max speed" sid="348747050357916" type="MeninaBase">
+                            <param id="0" name="Max Speed">PersonagemVelocidade</param>
+                        </action>
+                        <action behavior="Pathfinding" id="7" name="Set max speed" sid="112010207918320" type="MeninaBase">
+                            <param id="0" name="Speed">PersonagemVelocidade</param>
+                        </action>
+                        <action id="4" name="Set animation" sid="108201867923757" type="Lixeira">
+                            <param id="0" name="Animation">&quot;AbrindoFechando&quot;</param>
+                            <param id="1" name="From">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
     </events>
 </c2eventsheet>
