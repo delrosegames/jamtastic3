@@ -10,6 +10,8 @@
     <unique-id>5al2dxbw08by</unique-id>
     <saved-with-version>25200</saved-with-version>
     <used-plugins>
+        <plugin author="Scirra" id="Browser" version="1">Browser</plugin>
+        <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Keyboard" version="1">Keyboard</plugin>
         <plugin author="Scirra" id="Mouse" version="1">Mouse</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
@@ -38,7 +40,7 @@
     </window-size>
     <pixel-rounding>0</pixel-rounding>
     <preview-effects>1</preview-effects>
-    <first-layout>Fase1</first-layout>
+    <first-layout>MenuInicial</first-layout>
     <use-loader-layout>0</use-loader-layout>
     <configuration-settings>
         <prop name="Clear background">Yes</prop>
@@ -293,6 +295,12 @@
             </object-type>
             <object-type name="Gamepad" sid="312902455391216">
                 <plugin id="gamepad" />
+            </object-type>
+            <object-type name="Function" sid="375777711027008">
+                <plugin id="Function" />
+            </object-type>
+            <object-type name="Browser" sid="325286339836443">
+                <plugin id="Browser" />
             </object-type>
         </object-folder>
         <object-folder name="Lixos">
@@ -606,6 +614,81 @@
                 <texture original-source="D:\Dev\Assets\Jamtastic3\Cenário\Proporção 2\Arquibancada - Pessoas.png" />
             </object-type>
         </object-folder>
+        <object-folder name="MenuInicial">
+            <object-type name="MenuInicialFundo" sid="506787840943767">
+                <plugin id="Sprite" />
+                <animation-folder>
+                    <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="725689610481658" speed="5">
+                        <frame duration="1" hotspotX="0" hotspotY="0" original-source="D:\Dev\Assets\Jamtastic3\Menu inicial\Original - Copia\Vai_Gari__0004_Plano-de-Fundo.png" />
+                    </animation>
+                </animation-folder>
+            </object-type>
+            <object-type name="Sprite" sid="967423598793667">
+                <plugin id="Sprite" />
+                <animation-folder>
+                    <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="970957663149004" speed="5">
+                        <frame duration="1" hotspotX="0.500692" hotspotY="0.50084" original-source="D:\Dev\Assets\Jamtastic3\Menu inicial\Original - Copia\Vai_Gari__0003_Agrupar-4-copiar-2.png" />
+                    </animation>
+                </animation-folder>
+            </object-type>
+            <object-type name="BotaoIniciar" sid="543945433530378">
+                <plugin id="Sprite" />
+                <animation-folder>
+                    <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="388403441159342" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.5" original-source="D:\Dev\Assets\Jamtastic3\Menu inicial\Original - Copia\Vai_Gari__0001_INICIAR.png">
+                            <collision-poly>
+                                <point x="0.0685714" y="0.146341" />
+                                <point x="0.5" y="0.097561" />
+                                <point x="0.954286" y="0.097561" />
+                                <point x="0.985714" y="0.5" />
+                                <point x="0.9" y="0.786585" />
+                                <point x="0.5" y="0.939024" />
+                                <point x="0.0971429" y="0.792683" />
+                                <point x="0.00857143" y="0.5" />
+                            </collision-poly>
+                        </frame>
+                    </animation>
+                </animation-folder>
+            </object-type>
+            <object-type name="BotaoSair" sid="993289551937063">
+                <plugin id="Sprite" />
+                <animation-folder>
+                    <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="203529440565566" speed="5">
+                        <frame duration="1" hotspotX="0.5" hotspotY="0.5" original-source="D:\Dev\Assets\Jamtastic3\Menu inicial\Original - Copia\Vai_Gari__0002_SAIR.png">
+                            <collision-poly>
+                                <point x="0.0685714" y="0.146341" />
+                                <point x="0.5" y="0.097561" />
+                                <point x="0.954286" y="0.097561" />
+                                <point x="0.985714" y="0.5" />
+                                <point x="0.9" y="0.786585" />
+                                <point x="0.5" y="0.939024" />
+                                <point x="0.0971429" y="0.792683" />
+                                <point x="0.00857143" y="0.5" />
+                            </collision-poly>
+                        </frame>
+                    </animation>
+                </animation-folder>
+            </object-type>
+            <object-type name="MenuInicialCursor" sid="310261157848587">
+                <plugin id="Sprite" />
+                <animation-folder>
+                    <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="435364142859581" speed="5">
+                        <frame duration="1" hotspotX="0.117925" hotspotY="0.611111" original-source="D:\Dev\Assets\Jamtastic3\Menu inicial\Original - Copia\Vai_Gari__0000_Camada-20-copiar.png">
+                            <collision-poly>
+                                <point x="0.283019" y="0.277778" />
+                                <point x="0.5" y="0.319444" />
+                                <point x="0.966981" y="0.0324074" />
+                                <point x="0.665094" y="0.5" />
+                                <point x="0.721698" y="0.726852" />
+                                <point x="0.5" y="0.898148" />
+                                <point x="0.179245" y="0.824074" />
+                                <point x="0.0566038" y="0.5" />
+                            </collision-poly>
+                        </frame>
+                    </animation>
+                </animation-folder>
+            </object-type>
+        </object-folder>
     </object-folder>
     <families>
         <family name="FLixo" plugin-id="Sprite" sid="268465511702361">
@@ -646,6 +729,7 @@
         </layout-folder>
         <layout>Layout para objetos.xml</layout>
         <layout>UI.xml</layout>
+        <layout>MenuInicial.xml</layout>
     </layout-folder>
     <event-folder>
         <event-folder name="Personagem">
@@ -660,6 +744,7 @@
         </event-folder>
         <event-sheet>Global.xml</event-sheet>
         <event-sheet>Jogo.xml</event-sheet>
+        <event-sheet>MenuInicial.xml</event-sheet>
     </event-folder>
     <global-instances>
         <global-instance type="Mouse" uid="1" />
@@ -669,6 +754,8 @@
                 <analog-deadzone>25</analog-deadzone>
             </properties>
         </global-instance>
+        <global-instance type="Function" uid="38" />
+        <global-instance type="Browser" uid="39" />
     </global-instances>
     <sounds-folder />
     <music-folder />
