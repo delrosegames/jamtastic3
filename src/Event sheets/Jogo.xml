@@ -8,21 +8,19 @@
                 <condition id="-2" name="On start of layout" sid="899178598479666" type="System" />
             </conditions>
             <actions />
-            <sub-events>
-                <event-block sid="324785877958779">
-                    <conditions>
-                        <condition id="5" name="Is tag playing" sid="946123155887177" type="Audio">
-                            <param id="0" name="Tag">&quot;BGM&quot;</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="3" name="Set volume" sid="967008302945818" type="Audio">
-                            <param id="0" name="Tag">&quot;BGM&quot;</param>
-                            <param id="1" name="dB">0</param>
-                        </action>
-                    </actions>
-                </event-block>
-            </sub-events>
+        </event-block>
+        <event-block sid="324785877958779">
+            <conditions>
+                <condition id="5" name="Is tag playing" sid="946123155887177" type="Audio">
+                    <param id="0" name="Tag">&quot;BGM&quot;</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="3" name="Set volume" sid="967008302945818" type="Audio">
+                    <param id="0" name="Tag">&quot;BGM&quot;</param>
+                    <param id="1" name="dB">0</param>
+                </action>
+            </actions>
         </event-block>
         <event-group description="" sid="355753951874468" title="Movimentação do cenário">
             <sub-events>
