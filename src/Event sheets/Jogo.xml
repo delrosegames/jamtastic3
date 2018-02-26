@@ -3,6 +3,27 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Jogo</name>
     <events>
+        <event-block sid="933663881862808">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="899178598479666" type="System" />
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="324785877958779">
+                    <conditions>
+                        <condition id="5" name="Is tag playing" sid="946123155887177" type="Audio">
+                            <param id="0" name="Tag">&quot;BGM&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="3" name="Set volume" sid="967008302945818" type="Audio">
+                            <param id="0" name="Tag">&quot;BGM&quot;</param>
+                            <param id="1" name="dB">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
         <event-group description="" sid="355753951874468" title="Movimentação do cenário">
             <sub-events>
                 <event-block sid="640685351953523">
@@ -195,12 +216,11 @@
         </event-group>
         <event-group description="" sid="878439892615605" title="Pausa">
             <sub-events>
-                <event-block sid="108166668500474">
+                <event-block sid="660758202008481">
                     <conditions>
-                        <condition id="0" name="On key pressed" sid="101351487701598" type="Keyboard">
-                            <param id="0" name="Key">27</param>
+                        <condition id="0" name="On function" sid="440442555897987" type="Function">
+                            <param id="0" name="Name">&quot;Pausar&quot;</param>
                         </condition>
-                        <condition id="-9" inverted="1" name="Is visible" sid="818863831372163" type="FundoEscuro" />
                     </conditions>
                     <actions />
                     <sub-events>
@@ -217,6 +237,21 @@
                                     <param id="0" name="Time scale">0</param>
                                 </action>
                             </actions>
+                            <sub-events>
+                                <event-block sid="477317805206497">
+                                    <conditions>
+                                        <condition id="5" name="Is tag playing" sid="767320192838525" type="Audio">
+                                            <param id="0" name="Tag">&quot;BGM&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="3" name="Set volume" sid="853420499802602" type="Audio">
+                                            <param id="0" name="Tag">&quot;BGM&quot;</param>
+                                            <param id="1" name="dB">-10</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                         <event-block sid="716165361748651">
                             <conditions>
@@ -227,8 +262,37 @@
                                     <param id="0" name="Time scale">1.0</param>
                                 </action>
                             </actions>
+                            <sub-events>
+                                <event-block sid="318221780412236">
+                                    <conditions>
+                                        <condition id="5" name="Is tag playing" sid="473196172856478" type="Audio">
+                                            <param id="0" name="Tag">&quot;BGM&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="3" name="Set volume" sid="472661218876509" type="Audio">
+                                            <param id="0" name="Tag">&quot;BGM&quot;</param>
+                                            <param id="1" name="dB">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                     </sub-events>
+                </event-block>
+                <event-block sid="108166668500474">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="101351487701598" type="Keyboard">
+                            <param id="0" name="Key">27</param>
+                        </condition>
+                        <condition id="-9" inverted="1" name="Is visible" sid="818863831372163" type="FundoEscuro" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="130471055557126" type="Function">
+                            <param id="0" name="Name">&quot;Pausar&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
                 </event-block>
                 <event-block sid="169476774010311">
                     <conditions>
@@ -238,33 +302,12 @@
                         </condition>
                         <condition id="-9" inverted="1" name="Is visible" sid="382793175867818" type="FundoEscuro" />
                     </conditions>
-                    <actions />
-                    <sub-events>
-                        <event-block sid="802718271217724">
-                            <conditions>
-                                <condition id="-8" name="Compare two values" sid="664985446917839" type="System">
-                                    <param id="0" name="First value">timescale</param>
-                                    <param id="1" name="Comparison">4</param>
-                                    <param id="2" name="Second value">0</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-13" name="Set time scale" sid="824116700721689" type="System">
-                                    <param id="0" name="Time scale">0</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="292237200458254">
-                            <conditions>
-                                <condition id="-22" name="Else" sid="118969615308979" type="System" />
-                            </conditions>
-                            <actions>
-                                <action id="-13" name="Set time scale" sid="572519008689494" type="System">
-                                    <param id="0" name="Time scale">1.0</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
+                    <actions>
+                        <action id="0" name="Call function" sid="419338785402482" type="Function">
+                            <param id="0" name="Name">&quot;Pausar&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
                 </event-block>
             </sub-events>
         </event-group>
