@@ -632,6 +632,11 @@
             </object-type>
             <object-type name="Sprite" sid="967423598793667">
                 <plugin id="Sprite" />
+                <behaviors>
+                    <behavior-type name="Sine" sid="556726910056780">
+                        <behavior id="Sin" />
+                    </behavior-type>
+                </behaviors>
                 <animation-folder>
                     <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="970957663149004" speed="5">
                         <frame duration="1" hotspotX="0.500692" hotspotY="0.50084" original-source="D:\Dev\Assets\Jamtastic3\Menu inicial\Original - Copia\Vai_Gari__0003_Agrupar-4-copiar-2.png" />
@@ -640,6 +645,11 @@
             </object-type>
             <object-type name="BotaoIniciar" sid="543945433530378">
                 <plugin id="Sprite" />
+                <behaviors>
+                    <behavior-type name="Sine" sid="498332626295165">
+                        <behavior id="Sin" />
+                    </behavior-type>
+                </behaviors>
                 <animation-folder>
                     <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="388403441159342" speed="5">
                         <frame duration="1" hotspotX="0.5" hotspotY="0.5" original-source="D:\Dev\Assets\Jamtastic3\Menu inicial\Original - Copia\Vai_Gari__0001_INICIAR.png">
@@ -659,6 +669,11 @@
             </object-type>
             <object-type name="BotaoSair" sid="993289551937063">
                 <plugin id="Sprite" />
+                <behaviors>
+                    <behavior-type name="Sine" sid="713128871432188">
+                        <behavior id="Sin" />
+                    </behavior-type>
+                </behaviors>
                 <animation-folder>
                     <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="203529440565566" speed="5">
                         <frame duration="1" hotspotX="0.5" hotspotY="0.5" original-source="D:\Dev\Assets\Jamtastic3\Menu inicial\Original - Copia\Vai_Gari__0002_SAIR.png">

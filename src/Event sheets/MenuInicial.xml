@@ -132,6 +132,68 @@
                         </action>
                     </actions>
                 </event-block>
+                <event-block sid="230954681418974">
+                    <conditions>
+                        <condition id="5" name="Compare axis" sid="677990044022964" type="Gamepad">
+                            <param id="0" name="Gamepad">0</param>
+                            <param id="1" name="Axis">0</param>
+                            <param id="2" name="Comparison">5</param>
+                            <param id="3" name="Value">50</param>
+                        </condition>
+                        <condition id="-4" name="Trigger once while true" sid="813595364882764" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="394516160348697" type="Function">
+                            <param id="0" name="Name">&quot;AlterarSelecao&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="545041333724666">
+                    <conditions>
+                        <condition id="5" name="Compare axis" sid="373734094702605" type="Gamepad">
+                            <param id="0" name="Gamepad">0</param>
+                            <param id="1" name="Axis">0</param>
+                            <param id="2" name="Comparison">3</param>
+                            <param id="3" name="Value">-50</param>
+                        </condition>
+                        <condition id="-4" name="Trigger once while true" sid="928215229484081" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="653534687672965" type="Function">
+                            <param id="0" name="Name">&quot;AlterarSelecao&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="341798198121821">
+                    <conditions>
+                        <condition id="6" name="On button pressed" sid="673894374693636" type="Gamepad">
+                            <param id="0" name="Gamepad">0</param>
+                            <param id="1" name="Button">13</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="561612248466047" type="Function">
+                            <param id="0" name="Name">&quot;AlterarSelecao&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="915971442690313">
+                    <conditions>
+                        <condition id="6" name="On button pressed" sid="255444765031448" type="Gamepad">
+                            <param id="0" name="Gamepad">0</param>
+                            <param id="1" name="Button">12</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="762538537969882" type="Function">
+                            <param id="0" name="Name">&quot;AlterarSelecao&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                </event-block>
                 <event-block sid="169440704672839">
                     <conditions>
                         <condition id="7" name="Cursor is over object" sid="712024306383687" type="Mouse">
@@ -165,10 +227,23 @@
                             <param id="1" name="Comparison">0</param>
                             <param id="2" name="Value">&quot;Iniciar&quot;</param>
                         </condition>
+                        <condition id="-4" name="Trigger once while true" sid="130811647747683" type="System" />
                     </conditions>
                     <actions>
                         <action id="-2" name="Set Y" sid="437884574880386" type="MenuInicialCursor">
                             <param id="0" name="Y">BotaoIniciar.Y</param>
+                        </action>
+                        <action behavior="Sine" id="0" name="Set active" sid="279793512244151" type="BotaoIniciar">
+                            <param id="0" name="State">1</param>
+                        </action>
+                        <action behavior="Sine" id="0" name="Set active" sid="485857943029370" type="BotaoSair">
+                            <param id="0" name="State">0</param>
+                        </action>
+                        <action behavior="Sine" id="5" name="Set cycle position" sid="147549098540633" type="BotaoIniciar">
+                            <param id="0" name="Cycle position">0</param>
+                        </action>
+                        <action behavior="Sine" id="5" name="Set cycle position" sid="620557165196813" type="BotaoSair">
+                            <param id="0" name="Cycle position">0</param>
                         </action>
                     </actions>
                 </event-block>
@@ -179,10 +254,23 @@
                             <param id="1" name="Comparison">0</param>
                             <param id="2" name="Value">&quot;Sair&quot;</param>
                         </condition>
+                        <condition id="-4" name="Trigger once while true" sid="821649522621256" type="System" />
                     </conditions>
                     <actions>
                         <action id="-2" name="Set Y" sid="843294399384988" type="MenuInicialCursor">
                             <param id="0" name="Y">BotaoSair.Y</param>
+                        </action>
+                        <action behavior="Sine" id="0" name="Set active" sid="160625248767320" type="BotaoIniciar">
+                            <param id="0" name="State">0</param>
+                        </action>
+                        <action behavior="Sine" id="0" name="Set active" sid="335491988779523" type="BotaoSair">
+                            <param id="0" name="State">1</param>
+                        </action>
+                        <action behavior="Sine" id="5" name="Set cycle position" sid="749379604743179" type="BotaoIniciar">
+                            <param id="0" name="Cycle position">0</param>
+                        </action>
+                        <action behavior="Sine" id="5" name="Set cycle position" sid="962678716755934" type="BotaoSair">
+                            <param id="0" name="Cycle position">0</param>
                         </action>
                     </actions>
                 </event-block>

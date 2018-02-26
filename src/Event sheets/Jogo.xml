@@ -230,6 +230,42 @@
                         </event-block>
                     </sub-events>
                 </event-block>
+                <event-block sid="169476774010311">
+                    <conditions>
+                        <condition id="6" name="On button pressed" sid="984042555966381" type="Gamepad">
+                            <param id="0" name="Gamepad">0</param>
+                            <param id="1" name="Button">9</param>
+                        </condition>
+                        <condition id="-9" inverted="1" name="Is visible" sid="382793175867818" type="FundoEscuro" />
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="802718271217724">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="664985446917839" type="System">
+                                    <param id="0" name="First value">timescale</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-13" name="Set time scale" sid="824116700721689" type="System">
+                                    <param id="0" name="Time scale">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="292237200458254">
+                            <conditions>
+                                <condition id="-22" name="Else" sid="118969615308979" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="-13" name="Set time scale" sid="572519008689494" type="System">
+                                    <param id="0" name="Time scale">1.0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
             </sub-events>
         </event-group>
         <event-group description="" sid="307304368730605" title="Acabou">
@@ -243,6 +279,20 @@
                     </conditions>
                     <actions>
                         <action id="-2" name="Go to layout" sid="360916648268751" type="System">
+                            <param id="0" name="Layout">MenuInicial</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="704544193056422">
+                    <conditions>
+                        <condition id="6" name="On button pressed" sid="904729088697655" type="Gamepad">
+                            <param id="0" name="Gamepad">0</param>
+                            <param id="1" name="Button">9</param>
+                        </condition>
+                        <condition id="-9" name="Is visible" sid="777452665104825" type="FundoEscuro" />
+                    </conditions>
+                    <actions>
+                        <action id="-2" name="Go to layout" sid="887734448471074" type="System">
                             <param id="0" name="Layout">MenuInicial</param>
                         </action>
                     </actions>

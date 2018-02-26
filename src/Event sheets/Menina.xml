@@ -58,10 +58,26 @@
             <sub-events>
                 <event-group description="Controle de animações e forma de visualização dos sprites do personagem" sid="313315331906602" title="Animações">
                     <sub-events>
-                        <event-block sid="768292590663900">
+                        <event-block any="1" sid="768292590663900">
                             <conditions>
                                 <condition id="2" name="Key is down" sid="738103694736181" type="Keyboard">
                                     <param id="0" name="Key">32</param>
+                                </condition>
+                                <condition id="3" name="Is button down" sid="494360559693869" type="Gamepad">
+                                    <param id="0" name="Gamepad">0</param>
+                                    <param id="1" name="Button">0</param>
+                                </condition>
+                                <condition id="3" name="Is button down" sid="460933188649411" type="Gamepad">
+                                    <param id="0" name="Gamepad">0</param>
+                                    <param id="1" name="Button">1</param>
+                                </condition>
+                                <condition id="3" name="Is button down" sid="195105628303236" type="Gamepad">
+                                    <param id="0" name="Gamepad">0</param>
+                                    <param id="1" name="Button">2</param>
+                                </condition>
+                                <condition id="3" name="Is button down" sid="892535881185368" type="Gamepad">
+                                    <param id="0" name="Gamepad">0</param>
+                                    <param id="1" name="Button">3</param>
                                 </condition>
                             </conditions>
                             <actions>
@@ -85,6 +101,10 @@
                             <conditions>
                                 <condition id="2" inverted="1" name="Key is down" sid="505248549302553" type="Keyboard">
                                     <param id="0" name="Key">32</param>
+                                </condition>
+                                <condition id="3" inverted="1" name="Is button down" sid="352998456320352" type="Gamepad">
+                                    <param id="0" name="Gamepad">0</param>
+                                    <param id="1" name="Button">0</param>
                                 </condition>
                             </conditions>
                             <actions>
