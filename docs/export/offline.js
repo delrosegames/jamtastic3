@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1519599724,
+	"version": 1519606551,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -38,6 +38,8 @@
 		"images/botaoiniciar-sheet0.png",
 		"images/botaosair-sheet0.png",
 		"images/menuinicialcursor-sheet0.png",
+		"media/ascent to the station.m4a",
+		"media/ascent to the station.ogg",
 		"icon-16.png",
 		"icon-32.png",
 		"icon-114.png",
